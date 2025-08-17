@@ -19,20 +19,16 @@ The Sakay.ph app aims to solve the common challenge of finding a jeepney route i
 **Getting Started**
 To get a local copy of the project up and running, follow these simple steps.
 1. **Clone the repository:**
-`Bash
-git clone https://github.com/[your-github-username]/[your-repo-name].git`
+`git clone https://github.com/[your-github-username]/sakay_ph.git`
 
 2. **Navigate to the project directory:**
-`Bash
-cd [your-repo-name]`
+`cd sakay_ph`
 
 3. **Install dependencies:**
-`Bash
-flutter pub get`
+`flutter pub get`
 
 4. **Run the app:**
-`Bash
-flutter run`
+`flutter run`
 
 #
 **Project Structure & Architecture**
