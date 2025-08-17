@@ -1,6 +1,6 @@
 # sakay_ph
 
-A simple jeepney route database for Angeles City
+A Simple MVP Flutter Project for 6ADET Midterms
 
 ## Getting Started
 
