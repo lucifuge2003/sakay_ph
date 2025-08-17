@@ -10,10 +10,10 @@ The Sakay.ph app aims to solve the common challenge of finding a jeepney route i
 
 #
 **Core Features**
-**Interactive Map** Utilizes `flutter_map` to display jeepney routes as polylines and stops as markers.
-**Routes List View:** A clean and scrollable list of all available jeepney routes.
-**Local Data Storage:** All route data is stored persistently on the device using `shared_preferences`.
-**Route Recommendation Engine:** (Optional) An algorithm to find and recommend the most suitable route based on proximity to a user-defined destination.
+* **Interactive Map**: Utilizes `flutter_map` to display jeepney routes as polylines and stops as markers.
+* **Routes List View:** A clean and scrollable list of all available jeepney routes.
+* **Local Data Storage:** All route data is stored persistently on the device using `shared_preferences`.
+* **Route Recommendation Engine:** (Optional) An algorithm to find and recommend the most suitable route based on proximity to a user-defined destination.
 
 #
 **Getting Started**
@@ -33,23 +33,23 @@ To get a local copy of the project up and running, follow these simple steps.
 #
 **Project Structure & Architecture**
 Our project follows a **Model-View-ViewModel (MVVM)** architecture to ensure a clear separation of concerns, which enhances maintainability and scalability.
-**Model:** Handles data logic and structure (`data/models/`).
-**View:** The UI layer (`presentation/`).
-**ViewModel:** Manages the state and business logic.
+* **Model:** *Handles data logic and structure (`data/models/`).*
+* **View:** *The UI layer (`presentation/`).*
+* **ViewModel:** *Manages the state and business logic.*
 
 The codebase is organized using a **feature-based folder** structure to keep related files together.
 
 #
 **Contributing**
 We welcome contributions to this project. To ensure a smooth collaboration, please follow our **Feature Branch Workflow.**
-**Branch:** Create a new branch from main for your feature or bug fix.
-**Commit:** Write clear, concise commit messages.
-**Pull Request:** Open a pull request to merge your branch into main and request a review from a team member.
+* **Branch:** *Create a new branch from main for your feature or bug fix.*
+* **Commit:** *Write clear, concise commit messages.*
+* **Pull Request:** *Open a pull request to merge your branch into main and request a review from a team member.*
 
 #
 **Authors**
-* Luiz Angelo Ropero
-* Shan Harvey Arcuino
-* Christine Francoise Gurango
-* Alexia John Pamintuan
+* Luiz Angelo Ropero - *Project Lead & Quality Assurance*
+* Shan Harvey Arcuino - *Data Modeling & Backend Logic*
+* Christine Francoise Gurango - *UI/UX Design & Frontend*
+* Alexia John Pamintuan - *Map Implementation & Algorithms*
 
