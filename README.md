@@ -48,8 +48,8 @@ We welcome contributions to this project. To ensure a smooth collaboration, plea
 
 #
 ### Authors
-* Luiz Angelo Ropero - *Project Lead Developer, Data Architecture and Logic*
-* Shan Harvey Arcuino - *UI/UX Designer*
+* Luiz Angelo Ropero - *Project Lead, Core Navigation*
+* Shan Harvey Arcuino - *UI/UX Designer and Visual Assets*
 * Christine Francoise Gurango - *Frontend Developer*
-* Alexia John Pamintuan - *QA Tester*
+* Alexia John Pamintuan - * Quality Assurance, Final Polish, and Visual Integration*
 
