@@ -1,29 +1,24 @@
-// This is a basic Flutter widget test.
-// To perform an interaction with a widget in your test, use the WidgetTester utility that Flutter
-// provides. For example, you can send tap and scroll gestures. You can also use WidgetTester
-// to find child widgets in the widget tree, read text, and verify that the values of widget
-// properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+// Assuming your main app widget is in lib/main.dart and is named MyApp
+// You may need to adjust this import path if your app's main widget is
+// in a different file.
 import 'package:sakay_ph/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  // A group for widget tests related to the app's initial startup.
+  group('App Startup Test', () {
+    // This test ensures that the main application widget can be rendered
+    // without any errors.
+    testWidgets('App starts without crashing', (WidgetTester tester) async {
+      // Build the app's main widget.
+      // The `tester.pumpWidget` function renders the widget in a test environment.
+      // If there are no exceptions, the test passes.
+      await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      // Since we just want to ensure it doesn't crash, we'll simply verify
+      // that the main widget is found.
+      expect(find.byType(MyApp), findsOneWidget);
+    });
   });
 }
