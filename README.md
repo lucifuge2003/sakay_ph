@@ -48,8 +48,8 @@ We welcome contributions to this project. To ensure a smooth collaboration, plea
 
 #
 ### Authors
-* Luiz Angelo Ropero - *Project Lead & Quality Assurance*
-* Shan Harvey Arcuino - *Data Modeling & Backend Logic*
-* Christine Francoise Gurango - *UI/UX Design & Frontend*
-* Alexia John Pamintuan - *Map Implementation & Algorithms*
+* Luiz Angelo Ropero - *Project Lead Developer, Data Architecture and Logic*
+* Shan Harvey Arcuino - *UI/UX Designer*
+* Christine Francoise Gurango - *Frontend Developer*
+* Alexia John Pamintuan - *QA Tester*
 
