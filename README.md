@@ -51,5 +51,5 @@ We welcome contributions to this project. To ensure a smooth collaboration, plea
 * Luiz Angelo Ropero - *Project Lead, Core Navigation*
 * Shan Harvey Arcuino - *UI/UX Designer and Visual Assets*
 * Christine Francoise Gurango - *Frontend Developer*
-* Alexia John Pamintuan - * Quality Assurance, Final Polish, and Visual Integration*
+* Alexia John Pamintuan - *Quality Assurance, Final Polish, and Visual Integration*
 
