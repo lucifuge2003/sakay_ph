@@ -10,7 +10,7 @@ The Sakay.ph app aims to solve the common challenge of finding a jeepney route i
 
 #
 ### Core Features
-* **Interactive Map**: Utilizes `flutter_map` to display jeepney routes as polylines and stops as markers.
+* **Interactive Map**: Utilizes `flutter_map` to display jeepney routes as polylines and landmarks as markers.
 * **Routes List View:** A clean and scrollable list of all available jeepney routes.
 * **Local Data Storage:** All route data is stored persistently on the device using `shared_preferences`.
 * **Route Recommendation Engine:** (Optional) An algorithm to find and recommend the most suitable route based on proximity to a user-defined destination.
