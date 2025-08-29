@@ -12,13 +12,15 @@ class JeepneyMapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Access the selected route from the provider
     final selectedRoute = context
-        .watch<RouteSelectionViewModel>()
+        .watch<
+          RouteSelectionViewModel
+        >() // ito yung purpose nung Provider dependency basically, really useful
         .selectedRoute;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(selectedRoute?.name ?? 'Sakay.ph Map'),
-        backgroundColor: const Color(0xFFE4DCCF),
+        backgroundColor: const Color(0xFFC8AD7E),
       ),
       body: Stack(
         children: [
@@ -33,8 +35,8 @@ class JeepneyMapPage extends StatelessWidget {
     return FlutterMap(
       options: MapOptions(
         // center the map on Angeles City
-        initialCenter: LatLng(15.4444, 120.5901),
-        initialZoom: 13.0,
+        initialCenter: LatLng(15.1353, 120.5894), // somewhere sa angeles
+        initialZoom: 15.0,
       ),
       children: [
         TileLayer(
