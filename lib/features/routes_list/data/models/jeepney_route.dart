@@ -19,7 +19,7 @@ class JeepneyRoute {
   final List<LatLng> polylinePoints;
 
   /// Creates a new [JeepneyRoute] instance.
-  const JeepneyRoute({
+  JeepneyRoute({
     required this.id,
     required this.name,
     required this.polylinePoints,
