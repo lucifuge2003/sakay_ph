@@ -10,9 +10,14 @@ class JeepneyMapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Access the selected route from the provider
+    final selectedRoute = context
+        .watch<RouteSelectionViewModel>()
+        .selectedRoute;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Jeepney Map Page'),
+        title: Text(selectedRoute?.name ?? 'Sakay.ph Map'),
         backgroundColor: const Color(0xFFE4DCCF),
       ),
       body: Stack(
