@@ -20,8 +20,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      // Set the home property to your JeepneyMapPage, making it the
-      // first screen the user sees when they open the app.
+      debugShowCheckedModeBanner: false,
       home: JeepneyMapPage(),
     );
   }

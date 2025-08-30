@@ -4,6 +4,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import '../view_models/route_selection_view_model.dart';
 import '../data/models/jeepney_route.dart';
+import '../../../widgets/search_bar.dart';
 
 class JeepneyMapPage extends StatelessWidget {
   const JeepneyMapPage({super.key});
@@ -25,6 +26,19 @@ class JeepneyMapPage extends StatelessWidget {
       body: Stack(
         children: [
           _buildMap(selectedRoute),
+          // search bar stacked on top of the map
+          const Positioned(
+            top: 50.0,
+            left: 10.0,
+            right: 10.0,
+            child: Center(
+              child: SizedBox(
+                width: 350.0,
+                height: 50.0,
+                child: JeepneySearchBar(),
+              ),
+            ),
+          ),
           // TODO: build the bottom panel ui here bruh
         ],
       ),
