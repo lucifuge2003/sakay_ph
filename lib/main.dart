@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'features/routes_list/presentation/jeepney_map_page.dart';
+import 'features/routes_list/view_models/route_selection_view_model.dart';
 
 void main() {
-  runApp(const MyApp());
+  // Wrap the entire app in a ChangeNotifierProvider to make the
+  // RouteSelectionViewModel available to all widgets below it.
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => RouteSelectionViewModel(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sakay PH', 
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const Text(
-        'Hello World',
-        // Ropero, Luiz Angelo T.
-        // Arcuino, Shan Harvey
-        // Gurango, Christine Francoise
-        // Pamintuan, Alexia John
-      ), // temp placeholder for the actual home widget
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: JeepneyMapPage(),
     );
   }
 }
