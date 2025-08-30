@@ -4,11 +4,14 @@ import 'features/routes_list/presentation/jeepney_map_page.dart';
 import 'features/routes_list/view_models/route_selection_view_model.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   // Wrap the entire app in a ChangeNotifierProvider to make the
   // RouteSelectionViewModel available to all widgets below it.
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => RouteSelectionViewModel(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => RouteSelectionViewModel()),
+      ],
       child: const MyApp(),
     ),
   );
