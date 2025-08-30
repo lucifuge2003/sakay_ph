@@ -1,4 +1,4 @@
-// lib/data/models/jeepney_route.dart
+import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
 /// A data model representing a single jeepney route.
@@ -14,6 +14,12 @@ class JeepneyRoute {
   /// The human-readable name of the route (e.g., "SM City Clark via Friendship").
   final String name;
 
+  /// The color used to render the route's polyline on a map.
+  final Color color;
+
+  /// The name of the main terminal or starting location of the route.
+  final String startingPoint;
+
   /// A list of [LatLng] objects that represent the geographical points
   /// of the route's path. This is used to draw the route on a map.
   final List<LatLng> polylinePoints;
@@ -22,6 +28,8 @@ class JeepneyRoute {
   JeepneyRoute({
     required this.id,
     required this.name,
+    required this.color,
+    required this.startingPoint,
     required this.polylinePoints,
   });
 
@@ -43,14 +51,15 @@ class JeepneyRoute {
     return JeepneyRoute(
       id: json['id'] as String,
       name: json['name'] as String,
+      color: json['color'] as Color,
+      startingPoint: json['startingPoint'] as String,
       polylinePoints: polylinePoints,
     );
   }
 
-  /// Converts a [JeepneyRoute] object to a JSON map.
-  ///
-  /// This method is crucial for serialization. It converts the object's properties,
-  /// including the list of [LatLng], into a `Map<String, dynamic>`.
+  /// Converts this [JeepneyRoute] object into a JSON map. This is essential for
+  /// serialization, allowing the route data to be stored in a database or
+  /// transferred over a network.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
