@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart'; // Core Flutter widgets.
-import 'package:flutter_map/flutter_map.dart'; // The Flutter map widget and its components.
-import 'package:latlong2/latlong.dart'; // Provides the LatLng class for geographical coordinates.
-import 'package:provider/provider.dart'; // State management library for sharing data.
-import '../view_models/route_selection_view_model.dart'; // The ViewModel that manages the selected route state.
-import '../data/models/jeepney_route.dart'; // The data model for jeepney routes.
-import '../../../widgets/search_bar.dart'; // Custom widget for the search bar.
-import '../../../widgets/routes_bottom_sheet.dart'; // Custom widget for the route selection sheet.
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
+import '../view_models/route_selection_view_model.dart';
+import '../data/models/jeepney_route.dart';
+import '../../../widgets/search_bar.dart';
+import '../../../widgets/routes_bottom_sheet.dart';
 
 /// A stateful widget that represents the main map page of the application.
 ///
@@ -103,6 +103,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
       ),
       // A floating action button to open the bottom sheet for route selection.
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFFB89B6E),
         onPressed: () => _showRoutesBottomSheet(context),
         child: const Icon(Icons.directions_bus),
       ),

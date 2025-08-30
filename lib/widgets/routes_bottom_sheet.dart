@@ -20,7 +20,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFFE5D5B8),
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
       ),
       child: Column(
@@ -31,7 +31,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
             height: 5,
             width: 40,
             decoration: BoxDecoration(
-              color: Colors.grey[300],
+              color: Color(0xFFB89B6E),
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -73,7 +73,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
-        leading: const Icon(Icons.directions_bus, color: Colors.blue),
+        leading: const Icon(Icons.directions_bus, color: Colors.black),
         title: Text(
           route.name,
           style: const TextStyle(fontWeight: FontWeight.bold),
