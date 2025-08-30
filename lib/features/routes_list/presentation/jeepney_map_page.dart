@@ -19,10 +19,6 @@ class JeepneyMapPage extends StatelessWidget {
         .selectedRoute;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(selectedRoute?.name ?? 'Sakay.ph Map'),
-        backgroundColor: const Color(0xFFC8AD7E),
-      ),
       body: Stack(
         children: [
           _buildMap(selectedRoute),
