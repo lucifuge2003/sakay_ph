@@ -254,6 +254,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       ), // DAR Electronics Workshop
       LatLng(15.126202156588194, 120.59741758978903), // Mary Roche' Marketing
       LatLng(15.126704680470866, 120.59711258858384), // EM-A Group Of Companies
+      // Starting point from Super 8 to Lakandula intersection
       LatLng(15.12721657487298, 120.59683149550352), // Super 8
       LatLng(
         15.127832237629727,
@@ -261,9 +262,8 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       ), // Villa Angela Subdivision
       LatLng(15.128858362833622, 120.59557894352434), // Carmelite Monastery
       LatLng(15.130219488187741, 120.59518495015432), // LBS Bakeshop
-      LatLng(15.131087951427093, 120.59404447674753), // Villa Gloria
-      LatLng(15.131632981512702, 120.59397742152214), // San Jose Chapel
-      LatLng(15.13222267400756, 120.59318147599699), // San Jose St.
+      LatLng(15.131523691555897, 120.59384143937618), // San Jose Chapel
+      LatLng(15.132196777718002, 120.59319550229161), // San Jose St.
       LatLng(15.133428593284963, 120.59180550277236), // 7-Eleven0208 HAU
       LatLng(15.133570351458845, 120.59189133346085), // Lakundala St.
       LatLng(15.135241923552242, 120.59204413356498), // Belajandrino Hotel
