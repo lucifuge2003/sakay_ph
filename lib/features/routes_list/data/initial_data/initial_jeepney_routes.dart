@@ -122,6 +122,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.138362343742887, 120.58831711964498), // Happy Go Shopping
       LatLng(15.138768836916656, 120.58798989014517), // Puregold Angeles
       LatLng(15.138789549923345, 120.5878081704844), // San Nicolas Market
+      LatLng(15.13869504681557, 120.58755403118023), // Jollibee Rotonda
     ],
   ),
 ];
