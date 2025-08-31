@@ -130,8 +130,14 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.138750, 120.587555),
       LatLng(15.138864, 120.587617),
       //Jake Gonzales Boulevard
+      LatLng(15.139122, 120.587472),
+      LatLng(15.139223, 120.587458),
       LatLng(15.140453, 120.587638),
-      LatLng(15.14500, 120.58870),
+      LatLng(15.141300, 120.587839),
+      LatLng(15.141823, 120.587989),
+      LatLng(15.143475, 120.588365),
+      LatLng(15.144226, 120.588529),
+      LatLng(15.145007, 120.588714),
       //Kalayaan Street to Other Terminal
       LatLng(15.145453, 120.587590),
       LatLng(15.146267, 120.586870),
