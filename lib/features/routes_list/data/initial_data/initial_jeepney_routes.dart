@@ -127,6 +127,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
         15.137357111252221,
         120.58676680283438,
       ), // Angeles City Fire Station
+      LatLng(15.136945989705877, 120.5864953706753), // Rizal Street Ext
     ],
   ),
 ];
