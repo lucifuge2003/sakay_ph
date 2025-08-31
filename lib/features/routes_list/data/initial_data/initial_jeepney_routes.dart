@@ -139,8 +139,13 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.144226, 120.588529),
       LatLng(15.145007, 120.588714),
       //Kalayaan Street 
+      LatLng(15.145150, 120.588276),
+      LatLng(15.145254, 120.588014),
+      LatLng(15.145349, 120.587775),
       LatLng(15.145453, 120.587590),
-      LatLng(15.146267, 120.586870),
+      LatLng(15.145606, 120.587415),
+      LatLng(15.145862, 120.587225),
+      LatLng(15.146289, 120.586890),
       //Ending Point
       LatLng(15.145956, 120.586431),
       LatLng(15.146170, 120.586243)
