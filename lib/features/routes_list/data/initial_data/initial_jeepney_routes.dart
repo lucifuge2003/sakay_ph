@@ -109,6 +109,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
         120.59621340300953,
       ), // Villa Angela Subdivision
       LatLng(15.128858362833622, 120.59557894352434), // Carmelite Monastery
+      LatLng(15.130219488187741, 120.59518495015432), // LBS Bakeshop
     ],
   ),
 ];
