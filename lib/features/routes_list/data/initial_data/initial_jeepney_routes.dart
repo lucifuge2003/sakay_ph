@@ -95,6 +95,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     polylinePoints: const [
       // Starting in Petron Angeles City
       LatLng(15.12351605335029, 120.59982619263153), // Petron
+      LatLng(15.123354608037458, 120.59893934573373), // Susie's Cuisine
     ],
   ),
 ];
