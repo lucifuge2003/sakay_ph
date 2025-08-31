@@ -80,4 +80,20 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       // Starting in Marisol
     ],
   ),
+
+  /// Defines the "Marisol - Pampang" route.
+  /// This route is currently incomplete and serves as a placeholder.
+  JeepneyRoute(
+    id: 'vila-pampang',
+    name: 'Pampang - SM Telabastagan',
+    color: const Color(0xFF50C878),
+    startingPoint: 'Super8',
+
+    /// The list of [LatLng] points for this route's path.
+    /// This route currently has no points and needs to be populated
+    /// with accurate geographical data.
+    polylinePoints: const [
+      // Starting in Super8
+    ],
+  ),
 ];
