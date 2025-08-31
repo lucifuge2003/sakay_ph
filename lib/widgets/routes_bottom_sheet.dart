@@ -78,7 +78,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
           route.name,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: const Text('Tap to view on map'),
+        subtitle: const Text('Price Range here', style: TextStyle(fontStyle: FontStyle.italic)),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: () {
           // When a route is tapped, we update the view model with the route's ID.
