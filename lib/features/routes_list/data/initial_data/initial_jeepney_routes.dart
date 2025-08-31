@@ -113,6 +113,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.131087951427093, 120.59404447674753), // Villa Gloria
       LatLng(15.131632981512702, 120.59397742152214), // San Jose Chapel
       LatLng(15.13222267400756, 120.59318147599699), // San Jose St.
+      LatLng(15.133428593284963, 120.59180550277236), // 7-Eleven0208 HAU
     ],
   ),
 ];
