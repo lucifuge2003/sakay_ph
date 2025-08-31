@@ -77,6 +77,7 @@ class _JeepneySearchBarState extends State<JeepneySearchBar> {
             fontWeight: FontWeight.w400,
             fontSize: 16.0,
           ),
+          contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
         ),
         style: const TextStyle(
           color: Color(0xFF6A573F),
