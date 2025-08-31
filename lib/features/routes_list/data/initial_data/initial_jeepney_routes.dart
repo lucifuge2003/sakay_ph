@@ -121,6 +121,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.137865230012007, 120.5888958062399), // Plaridel St.
       LatLng(15.138362343742887, 120.58831711964498), // Happy Go Shopping
       LatLng(15.138768836916656, 120.58798989014517), // Puregold Angeles
+      LatLng(15.138789549923345, 120.5878081704844), // San Nicolas Market
     ],
   ),
 ];
