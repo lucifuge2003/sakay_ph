@@ -103,6 +103,11 @@ final initialJeepneyRoutes = <JeepneyRoute>[
         120.59853935342969,
       ), // Compac 12 Police Station
       LatLng(15.125406838445615, 120.5984924147719), // Sacred Heart Hospital
+      LatLng(15.1272485129545, 120.59736897465453), // Super 8
+      LatLng(
+        15.127832237629727,
+        120.59621340300953,
+      ), // Villa Angela Subdivision
     ],
   ),
 ];
