@@ -93,7 +93,8 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     /// This route currently has no points and needs to be populated
     /// with accurate geographical data.
     polylinePoints: const [
-      // Starting in Super8
+      // Starting in Petron Angeles City
+      LatLng(15.12351605335029, 120.59982619263153), // Petron
     ],
   ),
 ];
