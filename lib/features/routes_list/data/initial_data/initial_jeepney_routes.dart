@@ -117,6 +117,8 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.13278, 120.59021), // Holy Angel University (HAU)
       LatLng(15.133570351458845, 120.59189133346085), // Lakundala St.
       LatLng(15.135241923552242, 120.59204413356498), // Belajandrino Hotel
+      LatLng(15.135801333950631, 120.59148242319246), // Pamintuan Mansion
+      LatLng(15.137865230012007, 120.5888958062399), // Plaridel St.
     ],
   ),
 ];
