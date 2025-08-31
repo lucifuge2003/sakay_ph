@@ -235,8 +235,8 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     /// with accurate geographical data.
     polylinePoints: const [
       // Starting point: Petron Angeles City to Super 8
-      LatLng(15.122731058388403, 120.59965515279961),
-      LatLng(15.123005871079897, 120.59943303465782),
+      LatLng(15.12296735762843, 120.5994815996267),
+      LatLng(15.12275503335803, 120.59965594321038),
       LatLng(15.123679942640194, 120.59899055468584),
       LatLng(15.124529487325207, 120.59850502299147),
       LatLng(15.124467135411814, 120.59840714982742),
