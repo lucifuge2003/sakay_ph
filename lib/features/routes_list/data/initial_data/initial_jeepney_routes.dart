@@ -81,13 +81,13 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     ],
   ),
 
-  /// Defines the "Marisol - Pampang" route.
+  /// Defines the "Villa - Pampang" route.
   /// This route is currently incomplete and serves as a placeholder.
   JeepneyRoute(
-    id: 'vila-pampang',
+    id: 'Villa-Pampang',
     name: 'Pampang - SM Telabastagan',
-    color: const Color(0xFF50C878),
-    startingPoint: 'Super8',
+    color: const Color.fromARGB(255, 237, 244, 61),
+    startingPoint: 'Petron Angeles City',
 
     /// The list of [LatLng] points for this route's path.
     /// This route currently has no points and needs to be populated
