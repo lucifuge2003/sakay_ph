@@ -131,8 +131,8 @@ final initialJeepneyRoutes = <JeepneyRoute>[
         120.59749543012994,
       ), // DAR Electronics Workshop
       LatLng(15.126202156588194, 120.59741758978903), // Mary Roche' Marketing
-
-      LatLng(15.1272485129545, 120.59736897465453), // Super 8
+      LatLng(15.126704680470866, 120.59711258858384), // EM-A Group Of Companies
+      LatLng(15.127044449383183, 120.59690594504816), // Super 8
       LatLng(
         15.127832237629727,
         120.59621340300953,
