@@ -103,6 +103,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
         120.59853935342969,
       ), // Compac 12 Police Station
       LatLng(15.125406838445615, 120.5984924147719), // Sacred Heart Hospital
+      LatLng(15.125406838445615, 120.5984924147719), // Sacred Heart Hospital
     ],
   ),
 ];
