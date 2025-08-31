@@ -112,6 +112,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.130219488187741, 120.59518495015432), // LBS Bakeshop
       LatLng(15.131087951427093, 120.59404447674753), // Villa Gloria
       LatLng(15.131632981512702, 120.59397742152214), // San Jose Chapel
+      LatLng(15.13222267400756, 120.59318147599699), // San Jose St.
     ],
   ),
 ];
