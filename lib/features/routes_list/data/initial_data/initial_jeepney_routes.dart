@@ -97,6 +97,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.12351605335029, 120.59982619263153), // Petron
       LatLng(15.123354608037458, 120.59893934573373), // Susie's Cuisine
       LatLng(15.123797912117388, 120.59915770460823), // Chevalier School
+      LatLng(15.12443002680672, 120.59831538897691), // 7-Eleven Sto Domingo
     ],
   ),
 ];
