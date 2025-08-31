@@ -79,13 +79,19 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     polylinePoints: const [
       // Starting in Marisol
       LatLng(15.150774, 120.592149),
+      LatLng(15.151016, 120.592579),
       LatLng(15.142901, 120.596569),
+      LatLng(15.142442, 120.596382),
+      LatLng(15.138918, 120.593764),
       LatLng(15.134803, 120.590605),
       LatLng(15.136997, 120.586486),
       LatLng(15.13885, 120.58757),
+      LatLng(15.140453, 120.587638),
       LatLng(15.14500, 120.58870),
+      LatLng(15.145453, 120.587590),
       LatLng(15.146267, 120.586870),
-      LatLng(15.145956, 120.586431)
+      LatLng(15.145956, 120.586431),
+      LatLng(15.145453, 120.587590)
     ],
   ),
 ];
