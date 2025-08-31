@@ -24,8 +24,6 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     /// the real-world road network, preventing straight lines across blocks.
     polylinePoints: const [
       // SMC Checkpoint
-
-
       LatLng(15.1667401, 120.5797973),
       LatLng(15.1667408, 120.5798013),
       LatLng(15.1668722, 120.5799247),
@@ -196,7 +194,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.145453, 120.587590),
       LatLng(15.146267, 120.586870),
       LatLng(15.145956, 120.586431),
-      LatLng(15.146170, 120.586243)
+      LatLng(15.146170, 120.586243),
     ],
   ),
 
@@ -212,7 +210,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     /// This route currently has no points and needs to be populated
     /// with accurate geographical data.
     polylinePoints: const [
-      // Starting in Petron Angeles City
+      // Starting in Petron Angeles City to Sacred Heart Medical Center Emergency Room
       LatLng(15.122731058388403, 120.59965515279961), // Petron
       LatLng(15.123005871079897, 120.59943303465782), // San Juan St.
       LatLng(15.123679942640194, 120.59899055468584), // Chevalier School
@@ -233,10 +231,11 @@ final initialJeepneyRoutes = <JeepneyRoute>[
         15.12554248340152,
         120.59809288177934,
       ), // Sacred Heart Medical Center Emergency Room
+      // Starting point from Central Motor Parts
       LatLng(15.125628799782437, 120.5980501802424), // Central Motor Parts
       LatLng(15.125696026067347, 120.59806603105855), // San Jacinto
       LatLng(15.125791417449632, 120.59804057194596), // Jollibee Sto. Domingo
-      LatLng(15.12583337041456, 120.59800492456334), // Rounabout Sto. Domingo
+      LatLng(15.12583337041456, 120.59800492456334), // Roundabout Sto. Domingo
       LatLng(
         15.125858568081476,
         120.59783400966887,
@@ -255,7 +254,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       ), // DAR Electronics Workshop
       LatLng(15.126202156588194, 120.59741758978903), // Mary Roche' Marketing
       LatLng(15.126704680470866, 120.59711258858384), // EM-A Group Of Companies
-      LatLng(15.127044449383183, 120.59690594504816), // Super 8
+      LatLng(15.12721657487298, 120.59683149550352), // Super 8
       LatLng(
         15.127832237629727,
         120.59621340300953,
@@ -266,7 +265,6 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.131632981512702, 120.59397742152214), // San Jose Chapel
       LatLng(15.13222267400756, 120.59318147599699), // San Jose St.
       LatLng(15.133428593284963, 120.59180550277236), // 7-Eleven0208 HAU
-      LatLng(15.13278, 120.59021), // Holy Angel University (HAU)
       LatLng(15.133570351458845, 120.59189133346085), // Lakundala St.
       LatLng(15.135241923552242, 120.59204413356498), // Belajandrino Hotel
       LatLng(15.135801333950631, 120.59148242319246), // Pamintuan Mansion
