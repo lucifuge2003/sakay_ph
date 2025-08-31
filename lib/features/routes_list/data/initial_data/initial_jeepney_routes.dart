@@ -234,58 +234,6 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     /// This route currently has no points and needs to be populated
     /// with accurate geographical data.
     polylinePoints: const [
-<<<<<<< HEAD
-      // Starting in Petron Angeles City to Sacred Heart Medical Center Emergency Room
-      LatLng(15.122731058388403, 120.59965515279961), // Petron
-      LatLng(15.123005871079897, 120.59943303465782), // San Juan St.
-      LatLng(15.123679942640194, 120.59899055468584), // Chevalier School
-      LatLng(15.124529487325207, 120.59850502299147), // Chevalier School Field
-      LatLng(15.124467135411814, 120.59840714982742), // 7-Eleven Sto Domingo
-      LatLng(15.12461685386126, 120.59846306751389), // Sto Domingo Footbridge
-      LatLng(
-        15.124734666929308,
-        120.59840741167632,
-      ), // Compac 12 Police Station
-      LatLng(15.124965264192484, 120.59830046027554), // San Pedro Street
-      LatLng(15.125162627577119, 120.59821693394576), // Med Express Drugstore
-      LatLng(
-        15.125357349254623,
-        120.59815926645241,
-      ), // Sacred Heart Medical Center
-      LatLng(
-        15.12554248340152,
-        120.59809288177934,
-      ), // Sacred Heart Medical Center Emergency Room
-      // Starting point from Central Motor Parts
-      LatLng(15.125628799782437, 120.5980501802424), // Central Motor Parts
-      LatLng(15.125696026067347, 120.59806603105855), // San Jacinto
-      LatLng(15.125791417449632, 120.59804057194596), // Jollibee Sto. Domingo
-      LatLng(15.12583337041456, 120.59800492456334), // Roundabout Sto. Domingo
-      LatLng(
-        15.125858568081476,
-        120.59783400966887,
-      ), // Rounabout Sto. Domingo Left road
-      LatLng(
-        15.125835892804771,
-        120.59777652227956,
-      ), // Roundabout Sto. Domingo Left side
-      LatLng(
-        15.125919397197638,
-        120.5976336946511,
-      ), // Migs Masters Institute for Graphics Inc.
-      LatLng(
-        15.126047884804619,
-        120.59749543012994,
-      ), // DAR Electronics Workshop
-      LatLng(15.126202156588194, 120.59741758978903), // Mary Roche' Marketing
-      LatLng(15.126704680470866, 120.59711258858384), // EM-A Group Of Companies
-      // Starting point from Super 8 to Lakandula intersection
-      LatLng(15.12721657487298, 120.59683149550352), // Super 8
-      LatLng(
-        15.127832237629727,
-        120.59621340300953,
-      ), // Villa Angela Subdivision
-=======
       // Starting point: Petron Angeles City to Super 8
       LatLng(15.122731058388403, 120.59965515279961),
       LatLng(15.123005871079897, 120.59943303465782),
@@ -311,7 +259,6 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.127044449383183, 120.59690594504816),
 
       // Starting point: Super 8 to Lakandula Intersection
->>>>>>> 538adbd8ee414131a7111c21d7a3cbad67a31e98
       LatLng(15.127403325407345, 120.59671769901422),
       LatLng(15.127703757808858, 120.59652271441698),
       LatLng(15.1278615651068, 120.59642622593141),
@@ -329,7 +276,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.130311600299121, 120.59498079689024),
       LatLng(15.130484204964377, 120.59483821425428),
       LatLng(15.130756720959408, 120.59459547433947),
-<<<<<<< HEAD
+
       LatLng(15.131523691555897, 120.59384143937618), // San Jose Chapel
       LatLng(15.132196777718002, 120.59319550229161), // San Jose St.
       LatLng(15.133428593284963, 120.59180550277236), // 7-Eleven0208 HAU
@@ -352,7 +299,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.134609122255796, 120.59036980262138), // Holy Rosary Parish
       LatLng(15.134333314868433, 120.59109874280043), // St. Joseph St. Entrance
       LatLng(15.12341125540442, 120.59905009345266), // Susie's Cuisine
-=======
+
       LatLng(15.131632981512702, 120.59397742152214),
       LatLng(15.13222267400756, 120.59318147599699),
       LatLng(15.132896487577991, 120.59253273834481),
@@ -438,7 +385,6 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.12297059427831, 120.59945477753458),
       LatLng(15.12296735762843, 120.5994815996267),
       LatLng(15.12275503335803, 120.59965594321038),
->>>>>>> 538adbd8ee414131a7111c21d7a3cbad67a31e98
     ],
   ),
 ];
