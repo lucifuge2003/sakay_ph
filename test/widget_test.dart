@@ -1,24 +1,26 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 
-// Assuming your main app widget is in lib/main.dart and is named MyApp
-// You may need to adjust this import path if your app's main widget is
-// in a different file.
-import 'package:sakay_ph/main.dart';
+import 'package:sakay_ph/features/routes_list/presentation/jeepney_map_page.dart';
+import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_model.dart';
 
 void main() {
   // A group for widget tests related to the app's initial startup.
   group('App Startup Test', () {
-    // This test ensures that the main application widget can be rendered
+    // This test ensures that the main application can be rendered
     // without any errors.
     testWidgets('App starts without crashing', (WidgetTester tester) async {
-      // Build the app's main widget.
-      // The `tester.pumpWidget` function renders the widget in a test environment.
-      // If there are no exceptions, the test passes.
-      await tester.pumpWidget(const MyApp());
-
-      // Since we just want to ensure it doesn't crash, we'll simply verify
-      // that the main widget is found.
-      expect(find.byType(MyApp), findsOneWidget);
+      // Build the app's main widget tree with the provider.
+      await tester.pumpWidget(
+        ChangeNotifierProvider(
+          create: (_) => RouteSelectionViewModel(),
+          child: const MaterialApp(home: JeepneyMapPage()),
+        ),
+      );
+      await tester.pumpAndSettle();
+      // Verify that the JeepneyMapPage is found, indicating a successful render.
+      expect(find.byType(JeepneyMapPage), findsOneWidget);
     });
   });
 }

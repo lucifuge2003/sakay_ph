@@ -9,9 +9,9 @@ void main() {
   // Wrap the entire app in a ChangeNotifierProvider to make the
   // RouteSelectionViewModel available to all widgets below it.
   runApp(
-    Provider<RouteSelectionViewModel>(
+    ChangeNotifierProvider(
       create: (_) => RouteSelectionViewModel(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
