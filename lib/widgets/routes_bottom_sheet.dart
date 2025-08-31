@@ -31,7 +31,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
             height: 5,
             width: 40,
             decoration: BoxDecoration(
-              color: Color(0xFFB89B6E),
+              color: Color(0xFFC8AD7E),
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -41,7 +41,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
             'Select a Jeepney Route',
             style: Theme.of(
               context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Color(0xFFC8AD7E)),
           ),
           const SizedBox(height: 16),
           // An expanded ListView to display the list of routes.
@@ -69,11 +69,18 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
     JeepneyRoute route,
     RouteSelectionViewModel viewModel,
   ) {
+
+    // Set purple color for Holy Angel route, etc... [pa-edit po pls]
+    Color cardColor = route.id == 'checkpoint-holy-loop' 
+      ? const Color(0xFFB886D3)  // Purple for Holy Angel route
+      : const Color(0xFFF5F0E8); // Light beige for other routes
+      
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 8),
+      color: cardColor,
       child: ListTile(
-        leading: const Icon(Icons.directions_bus, color: Colors.black),
+        leading: const Icon(Icons.directions_bus, color: Color(0xFFC8AD7E)),
         title: Text(
           route.name,
           style: const TextStyle(fontWeight: FontWeight.bold),
