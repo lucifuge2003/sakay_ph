@@ -114,6 +114,8 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.131632981512702, 120.59397742152214), // San Jose Chapel
       LatLng(15.13222267400756, 120.59318147599699), // San Jose St.
       LatLng(15.133428593284963, 120.59180550277236), // 7-Eleven0208 HAU
+      LatLng(15.13278, 120.59021), // Holy Angel University (HAU)
+      LatLng(15.133570351458845, 120.59189133346085), // Lakundala St.
     ],
   ),
 ];
