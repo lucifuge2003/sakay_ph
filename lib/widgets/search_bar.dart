@@ -71,11 +71,11 @@ class _JeepneySearchBarState extends State<JeepneySearchBar> {
         decoration: const InputDecoration(
           border: InputBorder.none, // Removes the default text field underline.
           suffixIcon: Icon(Icons.search, color: Color(0xFF6A573F), size: 24.0),
-          hintText: 'Search here...',
+          hintText: 'Where are you headed?',
           hintStyle: TextStyle(
             color: Color(0xFFE5D5B8),
             fontWeight: FontWeight.w400,
-            fontSize: 16.0,
+            fontSize: 17.0,
           ),
           contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
         ),
