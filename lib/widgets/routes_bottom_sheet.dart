@@ -31,7 +31,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
             height: 5,
             width: 40,
             decoration: BoxDecoration(
-              color: Color(0xFFF7D0),
+              color: Color(0xFFC8AD7E),
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -41,7 +41,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
             'Select a Jeepney Route',
             style: Theme.of(
               context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Color(0xFFC8AD7E)),
           ),
           const SizedBox(height: 16),
           // An expanded ListView to display the list of routes.
