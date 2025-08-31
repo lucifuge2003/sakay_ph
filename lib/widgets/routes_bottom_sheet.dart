@@ -31,7 +31,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
             height: 5,
             width: 40,
             decoration: BoxDecoration(
-              color: Color(0xFFB89B6E),
+              color: Color(0xFFF7D0),
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -73,7 +73,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
-        leading: const Icon(Icons.directions_bus, color: Colors.black),
+        leading: const Icon(Icons.directions_bus, color: Color(0xFFC8AD7E)),
         title: Text(
           route.name,
           style: const TextStyle(fontWeight: FontWeight.bold),
