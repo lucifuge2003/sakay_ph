@@ -94,9 +94,10 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     /// with accurate geographical data.
     polylinePoints: const [
       // Starting in Petron Angeles City
-      LatLng(15.122704760057502, 120.59970895712166), // Petron
-      LatLng(15.12341125540442, 120.59905009345266), // Susie's Cuisine
-      LatLng(15.123686078136911, 120.59898609050582), // Chevalier School
+      LatLng(15.122731058388403, 120.59965515279961), // Petron
+      LatLng(15.123005871079897, 120.59943303465782), // San Juan St.
+      LatLng(15.123679942640194, 120.59899055468584), // Chevalier School
+      LatLng(15.124529487325207, 120.59850502299147), // Chevalier School Field
       LatLng(15.124467135411814, 120.59840714982742), // 7-Eleven Sto Domingo
       LatLng(15.124731249937383, 120.5984106307974), // Compac 12 Police Station
       LatLng(15.125406838445615, 120.5984924147719), // Sacred Heart Hospital
@@ -130,6 +131,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.13551302064991, 120.58914668294597), // Nepo Mall Entrance
       LatLng(15.134609122255796, 120.59036980262138), // Holy Rosary Parish
       LatLng(15.134333314868433, 120.59109874280043), // St. Joseph St. Entrance
+      LatLng(15.12341125540442, 120.59905009345266), // Susie's Cuisine
     ],
   ),
 ];
