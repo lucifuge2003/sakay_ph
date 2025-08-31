@@ -5,6 +5,7 @@ import 'features/routes_list/view_models/route_selection_view_model.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Provider.debugCheckInvalidValueType = null;
   // Wrap the entire app in a ChangeNotifierProvider to make the
   // RouteSelectionViewModel available to all widgets below it.
   runApp(
