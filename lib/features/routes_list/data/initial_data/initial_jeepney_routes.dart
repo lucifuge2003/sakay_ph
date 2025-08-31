@@ -115,9 +115,21 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.136650, 120.592038),
       LatLng(15.135951, 120.591487),
       LatLng(15.134803, 120.590605),
-      //Rizal Street to Jake Gonzales Boulevard
-      LatLng(15.136997, 120.586486),
-      LatLng(15.13885, 120.58757),
+      //Santo Rosario Street
+      LatLng(15.134863, 120.590527),
+      LatLng(15.135078, 120.590186),
+      LatLng(15.135210, 120.589958),
+      LatLng(15.135347, 120.589725),
+      LatLng(15.135562, 120.589322),
+      LatLng(15.136078, 120.588384),
+      LatLng(15.136399, 120.587727),
+      LatLng(15.136702, 120.587091),
+      //Rizal Street
+      LatLng(15.136989, 120.586498),
+      LatLng(15.137986, 120.587077),
+      LatLng(15.138750, 120.587555),
+      LatLng(15.138864, 120.587617),
+      //Jake Gonzales Boulevard
       LatLng(15.140453, 120.587638),
       LatLng(15.14500, 120.58870),
       //Kalayaan Street to Other Terminal
