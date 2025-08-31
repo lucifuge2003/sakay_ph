@@ -106,8 +106,17 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       ), // Compac 12 Police Station
       LatLng(15.124965264192484, 120.59830046027554), // San Pedro Street
       LatLng(15.125162627577119, 120.59821693394576), // Med Express Drugstore
-      LatLng(), //
-      LatLng(15.125406838445615, 120.5984924147719), // Sacred Heart Hospital
+      LatLng(
+        15.125357349254623,
+        120.59815926645241,
+      ), // Sacred Heart Medical Center
+      LatLng(
+        15.12554248340152,
+        120.59809288177934,
+      ), // Sacred Heart Medical Center Emergency Room
+      LatLng(15.125628799782437, 120.5980501802424), // Central Motor Parts
+      LatLng(15.125696026067347, 120.59806603105855) // San Jacinto
+      LatLng(15.125791417449632, 120.59804057194596) // JOllibee Sto. Domingo
       LatLng(15.1272485129545, 120.59736897465453), // Super 8
       LatLng(
         15.127832237629727,
