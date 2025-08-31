@@ -131,6 +131,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.136144731926045, 120.5878596735503), // Jenra Mall
       LatLng(15.136047690654795, 120.58832230188303), // Teresita St.
       LatLng(15.13551302064991, 120.58914668294597), // Nepo Mall Entrance
+      LatLng(15.134609122255796, 120.59036980262138), // Holy Rosary Parish
     ],
   ),
 ];
