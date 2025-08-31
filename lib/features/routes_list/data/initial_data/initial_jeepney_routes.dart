@@ -164,51 +164,31 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     /// This route currently has no points and needs to be populated
     /// with accurate geographical data.
     polylinePoints: const [
-      // Starting in Petron Angeles City
-      LatLng(15.122731058388403, 120.59965515279961), // Petron
-      LatLng(15.123005871079897, 120.59943303465782), // San Juan St.
-      LatLng(15.123679942640194, 120.59899055468584), // Chevalier School
-      LatLng(15.124529487325207, 120.59850502299147), // Chevalier School Field
-      LatLng(15.124467135411814, 120.59840714982742), // 7-Eleven Sto Domingo
-      LatLng(15.12461685386126, 120.59846306751389), // Sto Domingo Footbridge
-      LatLng(
-        15.124734666929308,
-        120.59840741167632,
-      ), // Compac 12 Police Station
-      LatLng(15.124965264192484, 120.59830046027554), // San Pedro Street
-      LatLng(15.125162627577119, 120.59821693394576), // Med Express Drugstore
-      LatLng(
-        15.125357349254623,
-        120.59815926645241,
-      ), // Sacred Heart Medical Center
-      LatLng(
-        15.12554248340152,
-        120.59809288177934,
-      ), // Sacred Heart Medical Center Emergency Room
-      LatLng(15.125628799782437, 120.5980501802424), // Central Motor Parts
-      LatLng(15.125696026067347, 120.59806603105855), // San Jacinto
-      LatLng(15.125791417449632, 120.59804057194596), // Jollibee Sto. Domingo
-      LatLng(15.12583337041456, 120.59800492456334), // Rounabout Sto. Domingo
-      LatLng(
-        15.125858568081476,
-        120.59783400966887,
-      ), // Rounabout Sto. Domingo Left road
-      LatLng(
-        15.125835892804771,
-        120.59777652227956,
-      ), // Roundabout Sto. Domingo Left side
-      LatLng(
-        15.125919397197638,
-        120.5976336946511,
-      ), // Migs Masters Institute for Graphics Inc.
-      LatLng(
-        15.126047884804619,
-        120.59749543012994,
-      ), // DAR Electronics Workshop
-      LatLng(15.126202156588194, 120.59741758978903), // Mary Roche' Marketing
-      LatLng(15.126704680470866, 120.59711258858384), // EM-A Group Of Companies
-      LatLng(15.127044449383183, 120.59690594504816), // Super 8
-      // Starting from Super 8 to Lakandula Intersection
+      // Starting point: Petron Angeles City to Super 8
+      LatLng(15.122731058388403, 120.59965515279961),
+      LatLng(15.123005871079897, 120.59943303465782),
+      LatLng(15.123679942640194, 120.59899055468584),
+      LatLng(15.124529487325207, 120.59850502299147),
+      LatLng(15.124467135411814, 120.59840714982742),
+      LatLng(15.12461685386126, 120.59846306751389),
+      LatLng(15.124734666929308, 120.59840741167632),
+      LatLng(15.124965264192484, 120.59830046027554),
+      LatLng(15.125162627577119, 120.59821693394576),
+      LatLng(15.125357349254623, 120.59815926645241),
+      LatLng(15.12554248340152, 120.59809288177934),
+      LatLng(15.125628799782437, 120.5980501802424),
+      LatLng(15.125696026067347, 120.59806603105855),
+      LatLng(15.125791417449632, 120.59804057194596),
+      LatLng(15.12583337041456, 120.59800492456334),
+      LatLng(15.125858568081476, 120.59783400966887),
+      LatLng(15.125835892804771, 120.59777652227956),
+      LatLng(15.125919397197638, 120.5976336946511),
+      LatLng(15.126047884804619, 120.59749543012994),
+      LatLng(15.126202156588194, 120.59741758978903),
+      LatLng(15.126704680470866, 120.59711258858384),
+      LatLng(15.127044449383183, 120.59690594504816),
+
+      // Starting point: Super 8 to Lakandula Intersection
       LatLng(15.127403325407345, 120.59671769901422),
       LatLng(15.127703757808858, 120.59652271441698),
       LatLng(15.1278615651068, 120.59642622593141),
@@ -233,21 +213,21 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.133516139618333, 120.59189660986546),
       LatLng(15.133554996677605, 120.59186594040453),
 
-      // Starting from Lakandula Intersection to Lakandula-Miranda Intersection
+      // Starting point: Lakandula Intersection to Lakandula-Miranda Intersection
       LatLng(15.133865699214875, 120.59212209136194),
       LatLng(15.134026428417577, 120.59223553252144),
       LatLng(15.134337777562695, 120.59244474482702),
       LatLng(15.134750104104418, 120.59271430683306),
       LatLng(15.134990897255605, 120.59287389826821),
 
-      // Starting from Lakandula-Miranda Intersection to Miranda-Sto. Entierro Intersection
+      // Starting point: Lakandula-Miranda Intersection to Miranda-Sto. Entierro Intersection
       LatLng(15.135163724429122, 120.59262378228006),
       LatLng(15.135388317481578, 120.5922876775703),
       LatLng(15.13557473744732, 120.59201811556609),
       LatLng(15.135781223259858, 120.59170697931971),
       LatLng(15.135926863603009, 120.59149173204362),
 
-      // Starting from Miranda-Sto. Entierro Intersection to Miranda-Rizal St. Intersection
+      // Starting point: Miranda-Sto. Entierro Intersection to Miranda-Rizal St. Intersection
       LatLng(15.135952107919882, 120.5914394289643),
       LatLng(15.136244676311298, 120.59102985492237),
       LatLng(15.136681324135166, 120.59044190638865),
@@ -258,7 +238,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.13849101030926, 120.58796593648201),
       LatLng(15.138811790729347, 120.58754996259077),
 
-      // Starting from Miranda-Rizal St. Intersection to Rizal Exit-Sto. Rosario St. Intersection
+      // Starting point: Miranda-Rizal St. Intersection to Rizal Exit-Sto. Rosario St. Intersection
       LatLng(15.138429761559097, 120.58731852534687),
       LatLng(15.138116545579049, 120.58711772153018),
       LatLng(15.137998092666093, 120.5870493252008),
@@ -266,7 +246,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.137359920124332, 120.58672232112863),
       LatLng(15.136951782613563, 120.58649656213558),
 
-      // Starting from Rizal Exit-Sto. Rosario St. Intersection to Sto. Rosario-Sto. Entierro St. Intersection
+      // Starting point: Rizal Exit-Sto. Rosario St. Intersection to Sto. Rosario-Sto. Entierro St. Intersection
       LatLng(15.136755921693164, 120.58691025087633),
       LatLng(15.13641264529873, 120.58763475520163),
       LatLng(15.136350765793864, 120.58776509493288),
@@ -276,7 +256,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.135377008773576, 120.58967269304263),
       LatLng(15.134824823005918, 120.59060629282624),
 
-      // Starting from Sto. Rosario-Sto. Entierro St. Intersectionn-Super 8
+      // Starting point: Sto. Rosario-Sto. Entierro St. Intersection to Super 8
       LatLng(15.134377278994, 120.591062207231),
       LatLng(15.133564317293288, 120.59180825257585),
       LatLng(15.133023406944917, 120.59235846971373),
@@ -292,7 +272,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.127320889013596, 120.5966956205774),
       LatLng(15.126967818634922, 120.5969402167569),
 
-      // Starting from Super 8-Sto. Domingo Roundabout
+      // Starting point: Super 8 to Sto. Domingo Roundabout
       LatLng(15.126180463429344, 120.59740730632271),
       LatLng(15.126002010472655, 120.59751215552811),
       LatLng(15.125877406096079, 120.59755607999452),
@@ -301,16 +281,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.125581952771777, 120.59776611018235),
       LatLng(15.125543760783437, 120.59782377767483),
 
-      // Starting from Super 8-Sto. Domingo Roundabout
-      LatLng(15.126967818634922, 120.5969402167569),
-      LatLng(15.126180463429344, 120.59740730632271),
-      LatLng(15.126002010472655, 120.59751215552811),
-      LatLng(15.125877406096079, 120.59755607999452),
-      LatLng(15.125723990991423, 120.59771298922298),
-      LatLng(15.125648254378694, 120.59772237695574),
-      LatLng(15.125581952771777, 120.59776611018235),
-
-      // Starting from Sto. Domingo Roundabout-Petron Sto. Domingo
+      // Starting point: Sto. Domingo Roundabout to Petron Sto. Domingo
       LatLng(15.12515743918525, 120.5980252407839),
       LatLng(15.124459167056687, 120.5984074770705),
       LatLng(15.123768458450613, 120.59880071461562),
