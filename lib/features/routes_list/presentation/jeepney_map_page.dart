@@ -132,11 +132,28 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
         initialZoom: 15.0,
       ),
       children: [
-        // A tile layer to display the base map from OpenStreetMap.
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.example.sakay_ph',
-        ),
+  // Base grayscale map
+  TileLayer(
+    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    userAgentPackageName: 'com.example.sakay_ph',
+    tileBuilder: (context, widget, tile) {
+      return ColorFiltered(
+        colorFilter: const ColorFilter.matrix(<double>[
+              0.2126, 0.7152, 0.0722, 0, 0,
+              0.2126, 0.7152, 0.0722, 0, 0,
+              0.2126, 0.7152, 0.0722, 0, 0,
+              0, 0, 0, 1, 0,
+        ]),
+        child: widget,
+      );
+    },
+  ),
+  // Labels layer on top
+  TileLayer(
+    urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',
+    subdomains: const ['a', 'b', 'c', 'd'],
+    userAgentPackageName: 'com.example.sakay_ph',
+  ),
         // A layer to draw the route's polyline on the map.
         PolylineLayer(polylines: polylines),
       ],
