@@ -69,9 +69,16 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
     JeepneyRoute route,
     RouteSelectionViewModel viewModel,
   ) {
+
+    // Set purple color for Holy Angel route, etc... [pa-edit po pls]
+    Color cardColor = route.id == 'checkpoint-holy-loop' 
+      ? const Color(0xFFB886D3)  // Purple for Holy Angel route
+      : const Color(0xFFF5F0E8); // Light beige for other routes
+      
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 8),
+      color: cardColor,
       child: ListTile(
         leading: const Icon(Icons.directions_bus, color: Color(0xFFC8AD7E)),
         title: Text(
