@@ -71,9 +71,15 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
   ) {
 
     // Set purple color for Holy Angel route, etc... [pa-edit po pls]
-    Color cardColor = route.id == 'checkpoint-holy-loop' 
-      ? const Color(0xFFB886D3)  // Purple for Holy Angel route
-      : const Color(0xFFF5F0E8); // Light beige for other routes
+    Color cardColor;
+    
+    if (route.id == 'checkpoint-holy-loop') {
+      cardColor = const Color(0xFFB886D3); // Purple for Holy Angel route
+    } else if (route.id == 'marisol-pampang') {
+      cardColor = const Color(0xFF50C878);
+    } else {
+      cardColor = const Color.fromARGB(255, 255, 255, 255);
+    }
       
     return Card(
       elevation: 2,
@@ -85,7 +91,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
           route.name,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: const Text('Tap to view on map'),
+        subtitle: const Text('Price Range here', style: TextStyle(fontStyle: FontStyle.italic)),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: () {
           // When a route is tapped, we update the view model with the route's ID.
