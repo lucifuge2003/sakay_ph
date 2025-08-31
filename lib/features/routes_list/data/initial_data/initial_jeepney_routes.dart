@@ -128,6 +128,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
         120.58676680283438,
       ), // Angeles City Fire Station
       LatLng(15.136945989705877, 120.5864953706753), // Rizal Street Ext
+      LatLng(15.136144731926045, 120.5878596735503), // Jenra Mall
     ],
   ),
 ];
