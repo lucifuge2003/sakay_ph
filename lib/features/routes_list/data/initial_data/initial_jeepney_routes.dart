@@ -80,7 +80,12 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       // Starting in Marisol
       //Starting Point
       LatLng(15.150774, 120.592149),
-      LatLng(15.151016, 120.592579),
+      LatLng(15.150831, 120.592152),
+      LatLng(15.150861, 120.592298),
+      LatLng(15.150903, 120.592309),
+      LatLng(15.150934, 120.592335),
+      LatLng(15.150991, 120.592437),
+      LatLng(15.151025, 120.592572),
       //Angeles Rotonda
       LatLng(15.142901, 120.596569),
       LatLng(15.142442, 120.596382),
