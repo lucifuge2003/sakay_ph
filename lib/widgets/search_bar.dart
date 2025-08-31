@@ -32,7 +32,6 @@ class _JeepneySearchBarState extends State<JeepneySearchBar> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-      // Apply custom styling with a gradient, rounded corners, and a shadow.
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [Color(0xFFE5D5B8), Color(0xFFB89B6E)],
@@ -43,7 +42,7 @@ class _JeepneySearchBarState extends State<JeepneySearchBar> {
         border: Border.all(color: Colors.black, width: 1.0),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x4D000000), // Hex code for semi-transparent black.
+            color: Color(0x4D000000),
             spreadRadius: 2,
             blurRadius: 7,
             offset: Offset(0, 3),
@@ -52,7 +51,6 @@ class _JeepneySearchBarState extends State<JeepneySearchBar> {
       ),
       child: TextField(
         controller: _searchController,
-        // The onSubmitted callback is triggered when the user presses 'done' or 'enter'.
         onSubmitted: (routeId) {
           // Access the RouteSelectionViewModel without causing a rebuild.
           final viewModel = Provider.of<RouteSelectionViewModel>(
@@ -77,7 +75,10 @@ class _JeepneySearchBarState extends State<JeepneySearchBar> {
             fontWeight: FontWeight.w400,
             fontSize: 17.0,
           ),
-          contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 12.0,
+            horizontal: 16.0,
+          ),
         ),
         style: const TextStyle(
           color: Color(0xFF6A573F),
