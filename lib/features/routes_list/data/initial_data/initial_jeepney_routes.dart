@@ -117,6 +117,21 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.125628799782437, 120.5980501802424), // Central Motor Parts
       LatLng(15.125696026067347, 120.59806603105855), // San Jacinto
       LatLng(15.125791417449632, 120.59804057194596), // Jollibee Sto. Domingo
+      LatLng(15.12583337041456, 120.59800492456334), // Rounabout Sto. Domingo
+      LatLng(
+        15.125835892804771,
+        120.59777652227956,
+      ), // Roundabout Sto. Domingo Left side
+      LatLng(
+        15.125919397197638,
+        120.5976336946511,
+      ), // Migs Masters Institute for Graphics Inc.
+      LatLng(
+        15.126047884804619,
+        120.59749543012994,
+      ), // DAR Electronics Workshop
+      LatLng(15.126202156588194, 120.59741758978903), // Mary Roche' Marketing
+
       LatLng(15.1272485129545, 120.59736897465453), // Super 8
       LatLng(
         15.127832237629727,
