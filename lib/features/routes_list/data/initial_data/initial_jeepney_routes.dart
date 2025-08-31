@@ -119,6 +119,10 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.125791417449632, 120.59804057194596), // Jollibee Sto. Domingo
       LatLng(15.12583337041456, 120.59800492456334), // Rounabout Sto. Domingo
       LatLng(
+        15.125858568081476,
+        120.59783400966887,
+      ), // Rounabout Sto. Domingo Left road
+      LatLng(
         15.125835892804771,
         120.59777652227956,
       ), // Roundabout Sto. Domingo Left side
