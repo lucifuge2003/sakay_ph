@@ -99,7 +99,9 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.123679942640194, 120.59899055468584), // Chevalier School
       LatLng(15.124529487325207, 120.59850502299147), // Chevalier School Field
       LatLng(15.124467135411814, 120.59840714982742), // 7-Eleven Sto Domingo
-      LatLng(15.124731249937383, 120.5984106307974), // Compac 12 Police Station
+      LatLng(15.12461685386126, 120.59846306751389), // Sto Domingo Footbridge
+      LatLng(,), //
+      LatLng(15.124734666929308, 120.59840741167632), // Compac 12 Police Station
       LatLng(15.125406838445615, 120.5984924147719), // Sacred Heart Hospital
       LatLng(15.1272485129545, 120.59736897465453), // Super 8
       LatLng(
