@@ -102,10 +102,18 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.143579, 120.596251),
       LatLng(15.143136, 120.596482),
       //Angeles Rotonda
-      LatLng(15.142901, 120.596569),
+      LatLng(15.143019, 120.596487),
+      LatLng(15.142859, 120.596531),
+      LatLng(15.142693, 120.596482),
       LatLng(15.142442, 120.596382),
       //Santo Rosario (Long Road)
-      LatLng(15.138918, 120.593764),
+      LatLng(15.140749, 120.595097),
+      LatLng(15.140376, 120.594848),
+      LatLng(15.138939, 120.593764),
+      LatLng(15.137831, 120.592957),
+      LatLng(15.137121, 120.592391),
+      LatLng(15.136650, 120.592038),
+      LatLng(15.135951, 120.591487),
       LatLng(15.134803, 120.590605),
       //Rizal Street to Jake Gonzales Boulevard
       LatLng(15.136997, 120.586486),
