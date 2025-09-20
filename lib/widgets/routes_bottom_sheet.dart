@@ -78,7 +78,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
     } else if (route.id == 'marisol-pampang') {
       cardColor = const Color(0xFF50C878); // Green for Marisol route
     } else {
-      cardColor = const Color(0xFFE1E64C); // Yellow for Villa Pampang route
+      cardColor = const Color(0xFFE1E64C); // Yellow for Villa-Pampang route
     }
 
     return Card(
