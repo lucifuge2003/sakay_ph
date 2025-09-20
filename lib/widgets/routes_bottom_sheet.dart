@@ -39,9 +39,10 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
           // Title for the bottom sheet.
           Text(
             'Select a Jeepney Route',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: Color(0xFFC8AD7E)),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Color(0xFFC8AD7E),
+            ),
           ),
           const SizedBox(height: 16),
           // An expanded ListView to display the list of routes.
@@ -69,18 +70,17 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
     JeepneyRoute route,
     RouteSelectionViewModel viewModel,
   ) {
-
     // Set purple color for Holy Angel route, etc... [pa-edit po pls]
     Color cardColor;
-    
+
     if (route.id == 'checkpoint-holy-loop') {
       cardColor = const Color(0xFFB886D3); // Purple for Holy Angel route
     } else if (route.id == 'marisol-pampang') {
-      cardColor = const Color(0xFF50C878);
+      cardColor = const Color(0xFF50C878); // Green for Marisol route
     } else {
-      cardColor = const Color.fromARGB(255, 255, 255, 255);
+      cardColor = const Color(0xFFE1E64C); // Yellow for Villa Pampang route
     }
-      
+
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -91,7 +91,10 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
           route.name,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: const Text('Price Range here', style: TextStyle(fontStyle: FontStyle.italic)),
+        subtitle: const Text(
+          'Price Range here',
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: () {
           // When a route is tapped, we update the view model with the route's ID.
