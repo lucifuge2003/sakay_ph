@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'features/routes_list/presentation/jeepney_map_page.dart';
 import 'features/routes_list/view_models/route_selection_view_model.dart';
+import 'screens/startup_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: JeepneyMapPage(),
+      home: StartupPage(), // Start with StartupPage
     );
   }
 }
