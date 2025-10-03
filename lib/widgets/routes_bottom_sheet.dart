@@ -77,8 +77,22 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
       cardColor = const Color(0xFFB886D3); // Purple for Holy Angel route
     } else if (route.id == 'marisol-pampang') {
       cardColor = const Color(0xFF50C878); // Green for Marisol route
-    } else {
+    } else if (route.id == 'Villa-Pampang') {
       cardColor = const Color(0xFFE1E64C); // Yellow for Villa-Pampang route
+    } else if (route.id == 'capaya') {
+      cardColor = const Color.fromARGB(255, 203, 71, 141);
+    } else if (route.id == 'sapangbato') {
+      cardColor = const Color.fromARGB(255, 203, 71, 71);
+    } else if (route.id == 'carmenville') {
+      cardColor = const Color.fromARGB(255, 235, 120, 25);
+    } else if (route.id == 'pandan') {
+      cardColor = const Color.fromARGB(255, 25, 137, 235);
+    } else if (route.id == 'checkpoint-balibago') {
+      cardColor = const Color.fromARGB(255, 87, 79, 84);
+    } else if (route.id == 'henshonville') {
+      cardColor = const Color.fromARGB(255, 235, 232, 233);
+    } else {
+      cardColor = const Color.fromARGB(255, 225, 172, 125);
     }
 
     return Card(
