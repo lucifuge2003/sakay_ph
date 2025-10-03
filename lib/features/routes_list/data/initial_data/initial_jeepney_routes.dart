@@ -10,6 +10,25 @@ import '../models/jeepney_route.dart'; // Imports the custom JeepneyRoute data m
 /// demonstration or for applications where routes are fixed.
 final initialJeepneyRoutes = <JeepneyRoute>[
   JeepneyRoute(
+    id: 'capaya',
+    name: 'Capaya - Angeles',
+    color: const Color.fromARGB(255, 203, 71, 141),
+    startingPoint: ' ',
+
+    /// The list of [LatLng] points for this route's path.
+    /// This route currently has no points and needs to be populated
+    /// with accurate geographical data.
+    polylinePoints: const [
+      // Starting in Pampang Road
+      //Starting Point
+      
+      //Ending Point
+      
+    ],
+  ),
+  
+  
+  JeepneyRoute(
     id: 'sapangbato',
     name: 'Sapangbato - Angeles',
     color: const Color.fromARGB(255, 203, 71, 71),
@@ -412,6 +431,62 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.1667272, 120.5797872),
       LatLng(15.1668061, 120.5801077),
       LatLng(15.1669149, 120.5804484),
+    ],
+  ),
+
+  JeepneyRoute(
+    id: 'checkpoint-balibago',
+    name: 'Checkpoint - Holy Angel University - Balibago',
+    color: const Color.fromARGB(255, 87, 79, 84),
+    startingPoint: ' ',
+
+    /// The list of [LatLng] points for this route's path.
+    /// This route currently has no points and needs to be populated
+    /// with accurate geographical data.
+    polylinePoints: const [
+      // Starting in Pampang Road
+      //Starting Point
+      
+      //Ending Point
+      
+    ],
+  ),
+
+
+  JeepneyRoute(
+    id: 'hensonville',
+    name: 'Checkpoint - Hensonville - Angeles',
+    color: const Color.fromARGB(255, 235, 232, 233),
+    startingPoint: ' ',
+
+    /// The list of [LatLng] points for this route's path.
+    /// This route currently has no points and needs to be populated
+    /// with accurate geographical data.
+    polylinePoints: const [
+      // Starting in Pampang Road
+      //Starting Point
+      
+      //Ending Point
+      
+    ],
+  ),
+
+
+  JeepneyRoute(
+    id: 'friendship',
+    name: 'Friendship Highway - Angeles',
+    color: const Color.fromARGB(255, 225, 172, 125),
+    startingPoint: ' ',
+
+    /// The list of [LatLng] points for this route's path.
+    /// This route currently has no points and needs to be populated
+    /// with accurate geographical data.
+    polylinePoints: const [
+      // Starting in Pampang Road
+      //Starting Point
+      
+      //Ending Point
+      
     ],
   ),
 ];
