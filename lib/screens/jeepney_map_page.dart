@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
-import '../view_models/route_selection_view_model.dart';
-import '../data/models/jeepney_route.dart';
-import '../../../widgets/search_bar.dart';
-import '../../../widgets/routes_bottom_sheet.dart';
+import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_model.dart';
+import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart';
+import 'package:sakay_ph/widgets/search_bar.dart';
+import 'package:sakay_ph/widgets/routes_bottom_sheet.dart';
 
 /// A stateful widget that represents the main map page of the application.
 ///
@@ -132,28 +132,45 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
         initialZoom: 15.0,
       ),
       children: [
-  // Base grayscale map
-  TileLayer(
-    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    userAgentPackageName: 'com.example.sakay_ph',
-    tileBuilder: (context, widget, tile) {
-      return ColorFiltered(
-        colorFilter: const ColorFilter.matrix(<double>[
-              0.2126, 0.7152, 0.0722, 0, 0,
-              0.2126, 0.7152, 0.0722, 0, 0,
-              0.2126, 0.7152, 0.0722, 0, 0,
-              0, 0, 0, 1, 0,
-        ]),
-        child: widget,
-      );
-    },
-  ),
-  // Labels layer on top
-  TileLayer(
-    urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',
-    subdomains: const ['a', 'b', 'c', 'd'],
-    userAgentPackageName: 'com.example.sakay_ph',
-  ),
+        // Base grayscale map
+        TileLayer(
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          userAgentPackageName: 'com.example.sakay_ph',
+          tileBuilder: (context, widget, tile) {
+            return ColorFiltered(
+              colorFilter: const ColorFilter.matrix(<double>[
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+              ]),
+              child: widget,
+            );
+          },
+        ),
+        // Labels layer on top
+        TileLayer(
+          urlTemplate:
+              'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',
+          subdomains: const ['a', 'b', 'c', 'd'],
+          userAgentPackageName: 'com.example.sakay_ph',
+        ),
         // A layer to draw the route's polyline on the map.
         PolylineLayer(polylines: polylines),
       ],

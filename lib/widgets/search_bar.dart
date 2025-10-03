@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart'; // Core Flutter widgets.
 import 'package:provider/provider.dart'; // State management for a clean app architecture.
-import '../features/routes_list/view_models/route_selection_view_model.dart'; // The ViewModel to manage route selection state.
+import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_model.dart'; // The ViewModel to manage route selection state.
 
 /// A custom search bar widget designed for the jeepney route finder.
 ///

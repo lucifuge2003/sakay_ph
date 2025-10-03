@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart'; // Core Flutter widgets.
 import 'package:provider/provider.dart'; // State management library for sharing data.
-import '../features/routes_list/data/initial_data/initial_jeepney_routes.dart'; // The initial data list of jeepney routes.
-import '../features/routes_list/view_models/route_selection_view_model.dart'; // The ViewModel that manages the selected route state.
-import '../features/routes_list/data/models/jeepney_route.dart'; // The data model for a single jeepney route.
+import 'package:sakay_ph/features/routes_list/data/initial_data/initial_jeepney_routes.dart'; // The initial data list of jeepney routes.
+import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_model.dart'; // The ViewModel that manages the selected route state.
+import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart'; // The data model for a single jeepney route.
 
 /// A modal bottom sheet that displays a list of available jeepney routes.
 ///
