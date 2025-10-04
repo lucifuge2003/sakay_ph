@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../features/routes_list/presentation/jeepney_map_page.dart';
+import 'jeepney_map_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,11 +12,7 @@ class LoginPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFFFF7D0),
-              Color(0xFFFFFFFF),
-              Color(0xFFC8AD7E),
-            ],
+            colors: [Color(0xFFFFF7D0), Color(0xFFFFFFFF), Color(0xFFC8AD7E)],
           ),
         ),
         child: SafeArea(
@@ -26,7 +22,7 @@ class LoginPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Back button
-                const SizedBox(height: 5), 
+                const SizedBox(height: 5),
                 IconButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -35,8 +31,8 @@ class LoginPage extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
-                const SizedBox(height: 5), 
-                
+                const SizedBox(height: 5),
+
                 // Logo
                 Center(
                   child: Container(
@@ -61,8 +57,8 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                
-                // Sign In title 
+
+                // Sign In title
                 const Center(
                   child: Text(
                     'Sign in',
@@ -74,13 +70,16 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                
+
                 // Email field
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.black.withOpacity(0.3), width: 1),
+                    border: Border.all(
+                      color: Colors.black.withOpacity(0.3),
+                      width: 1,
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.15),
@@ -102,13 +101,16 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                
+
                 // Password field
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.black.withOpacity(0.3), width: 1),
+                    border: Border.all(
+                      color: Colors.black.withOpacity(0.3),
+                      width: 1,
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.15),
@@ -131,7 +133,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                
+
                 // Start button
                 Container(
                   width: double.infinity,
@@ -150,7 +152,9 @@ class LoginPage extends StatelessWidget {
                       // Navigate to the main map page
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => const JeepneyMapPage()),
+                        MaterialPageRoute(
+                          builder: (context) => const JeepneyMapPage(),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -159,10 +163,7 @@ class LoginPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
-                        side: const BorderSide(
-                          color: Colors.black,
-                          width: .5,
-                        ),
+                        side: const BorderSide(color: Colors.black, width: .5),
                       ),
                       elevation: 0,
                     ),
@@ -176,14 +177,13 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                
+
                 // Forgot password and sign up links
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       child: const Text(
                         'Forgot Password?',
                         style: TextStyle(
@@ -193,8 +193,7 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       child: const Text(
                         'Sign Up',
                         style: TextStyle(
@@ -205,19 +204,19 @@ class LoginPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                
+
                 const Spacer(),
-                
+
                 // Footer text
                 const Center(
                   child: Text(
                     'Sakay na, tara na!',
                     style: TextStyle(
-                      fontSize: 20, 
-                      fontWeight: FontWeight.w600, 
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                       color: Colors.black,
                       fontStyle: FontStyle.italic,
-                      letterSpacing: 0.5, 
+                      letterSpacing: 0.5,
                     ),
                   ),
                 ),

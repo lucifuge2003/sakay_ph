@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
-import 'package:sakay_ph/features/routes_list/presentation/jeepney_map_page.dart';
+import 'package:sakay_ph/screens/jeepney_map_page.dart';
 import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_model.dart';
 
 void main() {

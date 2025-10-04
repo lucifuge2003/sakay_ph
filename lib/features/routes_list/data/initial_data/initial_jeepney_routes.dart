@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart'; // Provides the Color class for defining route colors.
 import 'package:latlong2/latlong.dart'; // Provides the LatLng class for geographical coordinates.
-import '../models/jeepney_route.dart'; // Imports the custom JeepneyRoute data model.
+import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart'; // Imports the custom JeepneyRoute data model.
 
 /// This file contains a predefined list of static jeepney routes.
 ///

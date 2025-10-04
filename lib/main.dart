@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'features/routes_list/view_models/route_selection_view_model.dart';
-import 'screens/startup_page.dart';
-import 'screens/loading_page.dart';
-import 'screens/login_page.dart';
+import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_model.dart';
+import 'package:sakay_ph/screens/startup_page.dart';
+import 'package:sakay_ph/screens/loading_page.dart';
+import 'package:sakay_ph/screens/login_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

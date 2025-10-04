@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart'; // Core Flutter widgets and ChangeNotifier.
-import '../data/models/jeepney_route.dart'; // The data model for a single jeepney route.
-import '../data/initial_data/initial_jeepney_routes.dart'; // Import the new data file
+import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart'; // The data model for a single jeepney route.
+import 'package:sakay_ph/features/routes_list/data/initial_data/initial_jeepney_routes.dart'; // Import the new data file
 
 /// A [ChangeNotifier] that manages the currently selected jeepney route.
 ///
@@ -21,17 +21,21 @@ class RouteSelectionViewModel extends ChangeNotifier {
   /// This is the public-facing method used by UI components (like a list of
   /// routes) to trigger a route selection without needing the full object.
   void setSelectedRoute(String? routeId) {
-    if (routeId == null) {
+    if (routeId == null || routeId.isEmpty) {
       clearSelection();
     } else {
-      // Find the full route object from the imported list using the ID.
-      // An exception is thrown if the ID does not correspond to an existing route.
-      final route = initialJeepneyRoutes.firstWhere(
-        (route) => route.id == routeId,
-        orElse: () => throw Exception('Route with ID $routeId not found'),
-      );
-      // Once we have the object, we can call your existing selectRoute method.
-      selectRoute(route);
+      try {
+        // Find the full route object from the imported list using the ID.
+        final route = initialJeepneyRoutes.firstWhere((r) => r.id == routeId);
+        // Once we have the object, we set the route.
+        selectRoute(route);
+      } catch (e) {
+        // Handle the case where the route ID is not found gracefully.
+        debugPrint(
+          'Error: Route with ID $routeId not found in initialJeepneyRoutes. Clearing selection. Error: $e',
+        );
+        clearSelection();
+      }
     }
   }
 
@@ -40,8 +44,11 @@ class RouteSelectionViewModel extends ChangeNotifier {
   /// This is an internal method to update the state once a route has been
   /// successfully found or provided.
   void selectRoute(JeepneyRoute route) {
-    _selectedRoute = route;
-    notifyListeners();
+    // Only update and notify if the route is actually changing
+    if (_selectedRoute != route) {
+      _selectedRoute = route;
+      notifyListeners();
+    }
   }
 
   /// Clears the current route selection.
@@ -49,7 +56,9 @@ class RouteSelectionViewModel extends ChangeNotifier {
   /// Sets the selected route to `null` and notifies all listening widgets
   /// to update their state, for example, by removing a route's polyline from the map.
   void clearSelection() {
-    _selectedRoute = null;
-    notifyListeners();
+    if (_selectedRoute != null) {
+      _selectedRoute = null;
+      notifyListeners();
+    }
   }
 }

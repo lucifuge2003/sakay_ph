@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:latlong2/latlong.dart';
-import '../models/jeepney_route.dart';
+import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart';
 
 /// Service class for loading jeepney routes from JSON data.
 ///
@@ -35,7 +35,9 @@ class JeepneyRoutesLoader {
   /// Returns a [Future<List<JeepneyRoute>>] containing all the parsed routes.
   ///
   /// Throws [Exception] if the JSON cannot be parsed.
-  static Future<List<JeepneyRoute>> loadFromJsonString(String jsonString) async {
+  static Future<List<JeepneyRoute>> loadFromJsonString(
+    String jsonString,
+  ) async {
     return _parseJsonString(jsonString);
   }
 
@@ -47,12 +49,12 @@ class JeepneyRoutesLoader {
   static Color _hexToColor(String hexColor) {
     // Remove '0x' prefix if present
     String cleanHex = hexColor.replaceAll('0x', '').replaceAll('0X', '');
-    
+
     // Ensure it's 8 characters (AARRGGBB format)
     if (cleanHex.length == 6) {
       cleanHex = 'FF$cleanHex'; // Add full alpha if not present
     }
-    
+
     return Color(int.parse(cleanHex, radix: 16));
   }
 
@@ -88,14 +90,16 @@ class JeepneyRoutesLoader {
 }
 
 /// Updated initial routes - now loads from JSON
-/// 
+///
 /// This provides a fallback method to get routes, but it's recommended
 /// to use [JeepneyRoutesLoader.loadFromAssets] instead.
 Future<List<JeepneyRoute>> getInitialJeepneyRoutes() async {
   // You can either load from assets or return an empty list
   // and handle loading elsewhere in your app
   try {
-    return await JeepneyRoutesLoader.loadFromAssets('assets/data/jeepney_routes.json');
+    return await JeepneyRoutesLoader.loadFromAssets(
+      'assets/data/jeepney_routes.json',
+    );
   } catch (e) {
     // Return empty list as fallback, or handle error as needed
     print('Warning: Could not load jeepney routes: $e');
