@@ -19,26 +19,6 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     /// This route currently has no points and needs to be populated
     /// with accurate geographical data.
     polylinePoints: const [
-      // Starting in Pampang Road
-      //Starting Point
-      
-      //Ending Point
-      
-    ],
-  ),
-  
-  
-  JeepneyRoute(
-    id: 'sapangbato',
-    name: 'Sapangbato - Angeles',
-    color: const Color.fromARGB(255, 203, 71, 71),
-    startingPoint: 'Pampang Road',
-
-    /// The list of [LatLng] points for this route's path.
-    /// This route currently has no points and needs to be populated
-    /// with accurate geographical data.
-    polylinePoints: const [
-      // Starting in Pampang Road
       //Starting Point - San Vicente Street
       LatLng(15.146776, 120.614065),
       LatLng(15.148050, 120.614058),
@@ -117,6 +97,23 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.138043, 120.589121),
       LatLng(15.138292, 120.589354),
       LatLng(15.138706, 120.589781),
+    ],
+  ),
+  
+  
+  JeepneyRoute(
+    id: 'sapangbato',
+    name: 'Sapangbato - Angeles',
+    color: const Color.fromARGB(255, 203, 71, 71),
+    startingPoint: 'Pampang Road',
+
+    /// The list of [LatLng] points for this route's path.
+    /// This route currently has no points and needs to be populated
+    /// with accurate geographical data.
+    polylinePoints: const [
+      // Starting in Pampang Road
+      // Starting point
+      // Ending point
     ],
   ),
 
