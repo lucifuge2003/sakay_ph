@@ -116,7 +116,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
       LatLng(15.137820, 120.588909),
       LatLng(15.138043, 120.589121),
       LatLng(15.138292, 120.589354),
-      LatLng(15.138701, 120.589778),
+      LatLng(15.138706, 120.589781),
     ],
   ),
 
