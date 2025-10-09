@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'jeepney_map_page.dart';
+import '../utils/page_transitions.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -152,8 +153,9 @@ class LoginPage extends StatelessWidget {
                       // Navigate to the main map page
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const JeepneyMapPage(),
+                        ScalePageRoute(
+                          child: const JeepneyMapPage(),
+                          duration: const Duration(milliseconds: 400),
                         ),
                       );
                     },

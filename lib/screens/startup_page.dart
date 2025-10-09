@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
+import '../utils/page_transitions.dart';
 
 class StartupPage extends StatelessWidget {
   const StartupPage({Key? key}) : super(key: key);
@@ -128,7 +129,11 @@ class StartupPage extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const LoginPage()),
+                            SlidePageRoute(
+                              child: const LoginPage(),
+                              direction: SlideDirection.rightToLeft,
+                              duration: const Duration(milliseconds: 350),
+                            ),
                           );
                         },
                         style: ElevatedButton.styleFrom(

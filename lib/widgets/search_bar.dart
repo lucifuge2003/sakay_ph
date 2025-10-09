@@ -163,7 +163,7 @@ class _JeepneyRouteSearchState extends State<JeepneyRouteSearch> {
         controller: _searchController,
         focusNode: _focusNode,
         onSubmitted: _handleSubmission,
-        textAlignVertical: TextAlignVertical.center,
+        textAlignVertical: TextAlignVertical.bottom,
         decoration: InputDecoration(
           border: InputBorder.none, // Removes the default text field underline.
           suffixIcon: IconButton(
@@ -189,10 +189,7 @@ class _JeepneyRouteSearchState extends State<JeepneyRouteSearch> {
             fontWeight: FontWeight.w400,
             fontSize: 17.0,
           ),
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: 12.0,
-            horizontal: 16.0,
-          ),
+          contentPadding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 12.0),
         ),
         style: const TextStyle(
           color: Color(0xFF6A573F),
