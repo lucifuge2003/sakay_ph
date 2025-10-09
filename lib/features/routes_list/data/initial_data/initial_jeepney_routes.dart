@@ -1088,11 +1088,65 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     /// This route currently has no points and needs to be populated
     /// with accurate geographical data.
     polylinePoints: const [
-      // Starting in Pampang Road
-      //Starting Point
-      
-      //Ending Point
-      
+      // Starting in SM City Clark
+      //Starting Point - Jeepney Main Gate Friendship Terminal
+      LatLng(15.166620, 120.583175),
+      LatLng(15.166470, 120.583204),
+      //Fields Avenue
+      LatLng(15.166434, 120.583006),
+      LatLng(15.166366, 120.582617),
+      LatLng(15.166190, 120.581681),
+      LatLng(15.166017, 120.580731),
+      //Don Juico Avenue
+      LatLng(15.165856, 120.579862),
+      LatLng(15.165701, 120.579033),
+      LatLng(15.165626, 120.578591),
+      LatLng(15.165494, 120.577864),
+      LatLng(15.165447, 120.577647),
+      LatLng(15.165380, 120.577317),
+      LatLng(15.165308, 120.576732),
+      LatLng(15.165289, 120.576370),
+      LatLng(15.165287, 120.576096),
+      LatLng(15.165287, 120.575691),
+      LatLng(15.165320, 120.575211),
+      LatLng(15.165377, 120.574782),
+      LatLng(15.165468, 120.574203),
+      LatLng(15.165553, 120.573674),
+      LatLng(15.165724, 120.572610),
+      LatLng(15.165851, 120.571797),
+      LatLng(15.165988, 120.571011),
+      LatLng(15.166097, 120.570308),
+      LatLng(15.166216, 120.569450),
+      LatLng(15.166309, 120.568830),
+      LatLng(15.166395, 120.568227),
+      LatLng(15.166558, 120.567092),
+      LatLng(15.166661, 120.566500),
+      LatLng(15.166718, 120.566188),
+      LatLng(15.166742, 120.566003),
+      LatLng(15.166747, 120.565813),
+      LatLng(15.166718, 120.565381),
+      LatLng(15.166628, 120.564560),
+      LatLng(15.166548, 120.563812),
+      LatLng(15.166498, 120.563335),
+      LatLng(15.166452, 120.562932),
+      LatLng(15.166405, 120.562672),
+      LatLng(15.166338, 120.562020),
+      LatLng(15.166273, 120.561476),
+      LatLng(15.166126, 120.560894),
+      LatLng(15.166017, 120.560636),
+      LatLng(15.165774, 120.560153),
+      LatLng(15.165530, 120.559652),
+      LatLng(15.165282, 120.559148),
+      LatLng(15.165020, 120.558611),
+      LatLng(15.164785, 120.558120),
+      LatLng(15.164417, 120.557383),
+      LatLng(15.164140, 120.556814),
+      LatLng(15.164023, 120.556624),
+      LatLng(15.163853, 120.556329),
+      LatLng(15.163620, 120.555862),
+      LatLng(15.163353, 120.555333),
+      //Returning Point - Don Juico Avenue
+      LatLng(15.163218, 120.555103),
     ],
   ),
 ];
