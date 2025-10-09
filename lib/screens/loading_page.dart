@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sakay_ph/screens/startup_page.dart';
+import 'package:sakay_ph/screens/jeepney_map_page.dart';
+import 'package:sakay_ph/services/auth_state_manager.dart';
 
 /// Simple Loading/Splash screen with smooth transition to StartupPage
 class LoadingPage extends StatefulWidget {
@@ -19,17 +22,41 @@ class _LoadingPageState extends State<LoadingPage> {
   Future<void> _navigateToStartup() async {
     await Future.delayed(const Duration(seconds: 1));
     if (mounted) {
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          transitionDuration: const Duration(milliseconds: 700),
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const StartupPage(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
-        ),
-      );
+      final authManager = context.read<AuthStateManager>();
+      
+      // Wait for auth state to be initialized
+      while (!authManager.isInitialized && mounted) {
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
+      
+      if (mounted) {
+        // Navigate based on authentication state
+        if (authManager.isSignedIn) {
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 700),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const JeepneyMapPage(),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+            ),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 700),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const StartupPage(),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+            ),
+          );
+        }
+      }
     }
   }
 

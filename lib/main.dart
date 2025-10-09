@@ -5,6 +5,7 @@ import 'package:sakay_ph/screens/startup_page.dart';
 import 'package:sakay_ph/screens/loading_page.dart';
 import 'package:sakay_ph/screens/login_page.dart';
 import 'package:sakay_ph/services/supabase_config.dart';
+import 'package:sakay_ph/services/auth_state_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,11 +14,13 @@ void main() async {
   // Initialize Supabase
   await SupabaseConfig.initialize();
   
-  // Wrap the entire app in a ChangeNotifierProvider to make the
-  // RouteSelectionViewModel available to all widgets below it.
+  // Wrap the entire app in multiple providers
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => RouteSelectionViewModel(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => RouteSelectionViewModel()),
+        ChangeNotifierProvider(create: (_) => AuthStateManager()),
+      ],
       child: const MyApp(),
     ),
   );

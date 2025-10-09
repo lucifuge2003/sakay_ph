@@ -23,6 +23,7 @@ class AuthService {
         data: {
           if (fullName != null) 'full_name': fullName,
         },
+        emailRedirectTo: null, // Skip email confirmation
       );
       return response;
     } on AuthException catch (error) {
@@ -72,4 +73,41 @@ class AuthService {
 
   /// Listen to auth state changes
   static Stream<AuthState> get authStateChanges => _supabase.auth.onAuthStateChange;
+
+  /// Test if credentials are valid (for debugging)
+  static Future<bool> testCredentials({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await _supabase.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+      
+      // Sign out immediately after testing
+      if (response.session != null) {
+        await _supabase.auth.signOut();
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Get user by email (for debugging)
+  static Future<User?> getUserByEmail(String email) async {
+    try {
+      final response = await _supabase.auth.admin.listUsers();
+      for (final user in response) {
+        if (user.email == email) {
+          return user;
+        }
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
 }

@@ -2,9 +2,141 @@ import 'package:flutter/material.dart';
 import 'jeepney_map_page.dart';
 import 'signup_page.dart';
 import '../utils/page_transitions.dart';
+import '../services/auth_service.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLoading = false;
+  bool _obscurePassword = true;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _signIn() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final response = await AuthService.signIn(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+
+      if (response.user != null && response.session != null) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Welcome back!'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+
+        // Navigate to the main map page
+        Navigator.pushReplacement(
+          context,
+          ScalePageRoute(
+            child: const JeepneyMapPage(),
+            duration: const Duration(milliseconds: 400),
+          ),
+        );
+      } else {
+        throw Exception('Login failed - no session created');
+      }
+    } catch (e) {
+      String errorMessage = e.toString().replaceFirst('Exception: ', '');
+      
+      // Customize error messages for better UX
+      if (errorMessage.contains('Invalid login credentials')) {
+        errorMessage = 'Invalid email or password. Please check your credentials and try again.';
+      } else if (errorMessage.contains('Too many requests')) {
+        errorMessage = 'Too many login attempts. Please try again later.';
+      } else if (errorMessage.contains('User not found')) {
+        errorMessage = 'No account found with this email. Please sign up first.';
+      } else if (errorMessage.contains('Login failed - no session created')) {
+        errorMessage = 'Login failed. Please try again.';
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 4),
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your email';
+    }
+    if (!value.contains('@') || !value.contains('.')) {
+      return 'Please enter a valid email';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your password';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
+
+  Future<void> _resetPassword() async {
+    if (_emailController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter your email address first'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    try {
+      await AuthService.resetPassword(_emailController.text.trim());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password reset email sent! Check your inbox.'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString().replaceFirst('Exception: ', '')),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +150,13 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                 // Back button
                 const SizedBox(height: 5),
                 IconButton(
@@ -92,7 +226,10 @@ class LoginPage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: TextField(
+                    child: TextFormField(
+                      controller: _emailController,
+                      validator: _validateEmail,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         labelText: 'Email',
@@ -123,13 +260,26 @@ class LoginPage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: TextField(
-                      obscureText: true,
+                    child: TextFormField(
+                      controller: _passwordController,
+                      validator: _validatePassword,
+                      obscureText: _obscurePassword,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         labelText: 'Password',
                         labelStyle: const TextStyle(color: Colors.grey),
                         prefixIcon: Icon(Icons.lock, color: Colors.grey[600]),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                            color: Colors.grey[600],
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -150,16 +300,7 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Navigate to the main map page
-                      Navigator.pushReplacement(
-                        context,
-                        ScalePageRoute(
-                          child: const JeepneyMapPage(),
-                          duration: const Duration(milliseconds: 400),
-                        ),
-                      );
-                    },
+                    onPressed: _isLoading ? null : _signIn,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
@@ -170,13 +311,22 @@ class LoginPage extends StatelessWidget {
                       ),
                       elevation: 0,
                     ),
-                    child: const Text(
-                      'Start',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    child: _isLoading
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                            ),
+                          )
+                        : const Text(
+                            'Sign in',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -186,7 +336,7 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: _resetPassword,
                       child: const Text(
                         'Forgot Password?',
                         style: TextStyle(
@@ -217,22 +367,23 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
 
-                const Spacer(),
+                  const SizedBox(height: 40),
 
-                // Footer text
-                const Center(
-                  child: Text(
-                    'Sakay na, tara na!',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                      fontStyle: FontStyle.italic,
-                      letterSpacing: 0.5,
+                  // Footer text
+                  const Center(
+                    child: Text(
+                      'Sakay na, tara na!',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontStyle: FontStyle.italic,
+                        letterSpacing: 0.5,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

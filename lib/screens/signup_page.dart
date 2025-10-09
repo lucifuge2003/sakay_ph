@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import '../utils/page_transitions.dart';
 import '../services/auth_service.dart';
+import '../utils/auth_debug.dart';
 import 'login_page.dart';
+import 'jeepney_map_page.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -39,44 +41,125 @@ class _SignupPageState extends State<SignupPage> {
     });
 
     try {
+      // Debug: Show auth state before signup
+      AuthDebug.showAuthState();
+      
       final response = await AuthService.signUp(
         email: _emailController.text.trim(),
         password: _passwordController.text,
         fullName: _fullNameController.text.trim(),
       );
+      
+      // Debug: Show auth state after signup
+      AuthDebug.showAuthState();
 
-      if (response.user != null) {
+      if (response.user != null && response.session != null) {
         // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Account created successfully! Please check your email for verification.'),
+            content: Text('Account created successfully! Welcome to Sake Na!'),
             backgroundColor: Colors.green,
             duration: Duration(seconds: 3),
           ),
         );
 
-        // Navigate to login page
-        Navigator.pushReplacement(
-          context,
-          SlidePageRoute(
-            child: const LoginPage(),
-            direction: SlideDirection.leftToRight,
-            duration: const Duration(milliseconds: 350),
+        // Test the credentials to ensure they work for login
+        final credentialsWork = await AuthService.testCredentials(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
+
+        if (credentialsWork) {
+          // Navigate directly to map page after successful signup
+          await Future.delayed(const Duration(milliseconds: 500));
+          
+          if (mounted) {
+            Navigator.pushReplacement(
+              context,
+              ScalePageRoute(
+                child: const JeepneyMapPage(),
+                duration: const Duration(milliseconds: 400),
+              ),
+            );
+          }
+        } else {
+          // If credentials don't work, navigate to login page
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Account created! Please sign in with your credentials.'),
+                backgroundColor: Colors.blue,
+                duration: Duration(seconds: 3),
+              ),
+            );
+
+            await Future.delayed(const Duration(milliseconds: 500));
+            
+            Navigator.pushReplacement(
+              context,
+              SlidePageRoute(
+                child: const LoginPage(),
+                direction: SlideDirection.leftToRight,
+                duration: const Duration(milliseconds: 350),
+              ),
+            );
+          }
+        }
+      } else if (response.user != null && response.session == null) {
+        // User created but not signed in (email confirmation required)
+        // Show message and navigate to login
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Account created! Please sign in with your credentials.'),
+            backgroundColor: Colors.blue,
+            duration: Duration(seconds: 3),
           ),
         );
+
+        await Future.delayed(const Duration(milliseconds: 500));
+        
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            SlidePageRoute(
+              child: const LoginPage(),
+              direction: SlideDirection.leftToRight,
+              duration: const Duration(milliseconds: 350),
+            ),
+          );
+        }
       }
     } catch (e) {
+      String errorMessage = e.toString().replaceFirst('Exception: ', '');
+      
+      // Customize error messages for better UX
+      if (errorMessage.contains('User already registered')) {
+        errorMessage = 'An account with this email already exists. Please try signing in instead.';
+      } else if (errorMessage.contains('Password should be at least')) {
+        errorMessage = 'Password must be at least 6 characters long.';
+      } else if (errorMessage.contains('Invalid email')) {
+        errorMessage = 'Please enter a valid email address.';
+      } else if (errorMessage.contains('Signup is disabled')) {
+        errorMessage = 'Account creation is temporarily disabled. Please try again later.';
+      } else if (errorMessage.contains('Unable to validate email address')) {
+        errorMessage = 'Please enter a valid email address.';
+      } else if (errorMessage.contains('Email not confirmed')) {
+        errorMessage = 'Account created! You can now sign in.';
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(e.toString().replaceFirst('Exception: ', '')),
+          content: Text(errorMessage),
           backgroundColor: Colors.red,
-          duration: const Duration(seconds: 3),
+          duration: const Duration(seconds: 4),
         ),
       );
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
