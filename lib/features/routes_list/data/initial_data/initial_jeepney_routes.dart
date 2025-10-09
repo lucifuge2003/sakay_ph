@@ -946,7 +946,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
   JeepneyRoute(
     id: 'hensonville',
     name: 'Checkpoint - Hensonville - Angeles',
-    color: const Color.fromARGB(255, 235, 232, 233),
+    color: const Color.fromARGB(255, 190, 190, 190),
     startingPoint: ' ',
 
     /// The list of [LatLng] points for this route's path.
