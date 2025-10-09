@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'jeepney_map_page.dart';
+import 'signup_page.dart';
 import '../utils/page_transitions.dart';
 
 class LoginPage extends StatelessWidget {
@@ -195,7 +196,16 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          SlidePageRoute(
+                            child: const SignupPage(),
+                            direction: SlideDirection.rightToLeft,
+                            duration: const Duration(milliseconds: 350),
+                          ),
+                        );
+                      },
                       child: const Text(
                         'Sign Up',
                         style: TextStyle(

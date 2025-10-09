@@ -4,10 +4,15 @@ import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_m
 import 'package:sakay_ph/screens/startup_page.dart';
 import 'package:sakay_ph/screens/loading_page.dart';
 import 'package:sakay_ph/screens/login_page.dart';
+import 'package:sakay_ph/services/supabase_config.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Provider.debugCheckInvalidValueType = null;
+  
+  // Initialize Supabase
+  await SupabaseConfig.initialize();
+  
   // Wrap the entire app in a ChangeNotifierProvider to make the
   // RouteSelectionViewModel available to all widgets below it.
   runApp(
