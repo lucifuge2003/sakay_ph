@@ -796,7 +796,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
   JeepneyRoute(
     id: 'checkpoint-balibago',
     name: 'Checkpoint - Holy Angel University - Balibago',
-    color: const Color.fromARGB(255, 87, 79, 84),
+    color: const Color.fromARGB(255, 93, 86, 90),
     startingPoint: ' ',
 
     /// The list of [LatLng] points for this route's path.
@@ -946,7 +946,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
   JeepneyRoute(
     id: 'hensonville',
     name: 'Checkpoint - Hensonville - Angeles',
-    color: const Color.fromARGB(255, 190, 190, 190),
+    color: const Color.fromARGB(255, 0, 0, 0),
     startingPoint: ' ',
 
     /// The list of [LatLng] points for this route's path.
