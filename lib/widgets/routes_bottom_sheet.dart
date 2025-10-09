@@ -89,7 +89,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
       cardColor = const Color.fromARGB(255, 25, 137, 235);
     } else if (route.id == 'checkpoint-balibago') {
       cardColor = const Color.fromARGB(255, 87, 79, 84);
-    } else if (route.id == 'henshonville') {
+    } else if (route.id == 'hensonville') {
       cardColor = const Color.fromARGB(255, 235, 232, 233);
     } else {
       cardColor = const Color.fromARGB(255, 225, 172, 125);
