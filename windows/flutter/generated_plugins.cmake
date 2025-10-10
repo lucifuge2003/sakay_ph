@@ -6,6 +6,8 @@ list(APPEND FLUTTER_PLUGIN_LIST
   app_links
   flutter_tts
   geolocator_windows
+  objectbox_flutter_libs
+  speech_to_text_windows
   url_launcher_windows
 )
 

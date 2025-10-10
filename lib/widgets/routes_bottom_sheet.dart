@@ -126,37 +126,37 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
       'marisol-pampang': {
         'desc':
         'Runs between Marisol and Pampang, serving residential and public market areas.',
-        'drops': 'Marisol, Pampang Terminal, Angeles City Proper'
+        'drops': 'Marisol, Pampang Terminal, Angeles City Proper, Mugs and Magic, Marisol Gate 2'
       },
       'Villa-Pampang': {
         'desc':
         'Connects Villa Angela subdivision to Pampang. Popular among commuters heading to local schools.',
-        'drops': 'Villa Angela, Pampang Market, Pandan Road'
+        'drops': 'Holy Angel University, Pampang Market, Pandan Road, SM Telebastagan, Nepo Mall'
       },
       'capaya': {
         'desc':
         'Capaya route services Capaya and nearby barangays, connecting them to downtown Angeles.',
-        'drops': 'Capaya, Holy Family Academy, Angeles City Hall'
+        'drops': 'Capaya, Holy Family Academy, Angeles City Hall, City Center Subdivision, Hi-Precision Diagnostic'
       },
       'sapangbato': {
         'desc':
         'Sapangbato route travels from downtown to the Sapangbato area near Clark Freeport.',
-        'drops': 'Sapangbato, Friendship, Checkpoint'
+        'drops': 'Sapangbato, Friendship, Checkpoint, Coffee Bay, Porac Intersection'
       },
       'carmenville': {
         'desc':
         'Carmenville route covers major residential zones with access to Clark area and Nepo Center.',
-        'drops': 'Carmenville, Nepo Center, Marquee Mall'
+        'drops': 'Carmenville, Nepo Center, Marquee Mall, Circuit people Gym, Coffee Cat'
       },
       'pandan': {
         'desc':
         'Pandan jeepneys travel from the northern side of Angeles City to the market area.',
-        'drops': 'Pandan, Nepo Mart, Angeles City Hall'
+        'drops': 'Pandan, Nepo Mart, Angeles City Hall, Hi-Precicion Medical Center'
       },
       'checkpoint-balibago': {
         'desc':
         'Main line between Checkpoint and Balibago, covering nightlife and commercial zones.',
-        'drops': 'Balibago, Walking Street, Checkpoint'
+        'drops': 'Balibago, Walking Street, Checkpoint, Friendship Highway'
       },
       'hensonville': {
         'desc':
@@ -166,7 +166,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
       'mining': {
         'desc':
         'Covers the Mining district and nearby barangays, connecting to Checkpoint and downtown.',
-        'drops': 'Mining, Checkpoint, Holy Rosary Parish'
+        'drops': 'Mining, Checkpoint, Holy Rosary Parish, Holy Angel University, Nepo Mart'
       },
     };
 
@@ -178,7 +178,7 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
 
     void _speak() async {
       await flutterTts.setLanguage("en-US");
-      await flutterTts.setSpeechRate(0.6);
+      await flutterTts.setSpeechRate(0.55);
       await flutterTts.speak(
           "${route.name}. ${details['desc']}. Popular drop points include ${details['drops']}.");
     }

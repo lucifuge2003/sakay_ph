@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
-import 'package:geolocator/geolocator.dart'; // For GPS location
+import 'package:geolocator/geolocator.dart';
 import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_model.dart';
 import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart';
 import 'package:sakay_ph/widgets/search_bar.dart';
@@ -14,6 +14,7 @@ import '../map/route_markers.dart';
 import '../../data/initial_data/initial_jeepney_routes.dart';
 import '../../data/map/jeepney_info_dialog.dart';
 import 'package:latlong2/latlong.dart' show Distance, LengthUnit;
+import 'assistant_card.dart';
 
 class JeepneyMapPage extends StatefulWidget {
   final String? routeId;
@@ -31,26 +32,41 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
 
   LatLng? _startLocation;
   LatLng? _destinationLocation;
-  LatLng? _currentLocation; // GPS location
+  LatLng? _currentLocation;
   List<JeepneyRoute> _matchingRoutes = [];
   final Distance _distance = Distance();
+  bool _showInstruction = true;
+  String _instructionMessage = 'Tap on the map to set your start location';
+
 
   @override
   void initState() {
     super.initState();
-    // Hide Android navbar and status bar
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _getCurrentLocation();
   }
 
   @override
   void dispose() {
-    // Restore system UI on exit
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
   }
 
-  // Get user current GPS location
+  void _showTemporaryInstruction(String message, {int durationSeconds = 3}) {
+    setState(() {
+      _instructionMessage = message;
+      _showInstruction = true;
+    });
+
+    Future.delayed(Duration(seconds: durationSeconds), () {
+      if (mounted) {
+        setState(() => _showInstruction = false);
+      }
+    });
+  }
+
+
+  // ✅ Get user GPS location
   Future<void> _getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -66,9 +82,10 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
 
     if (permission == LocationPermission.deniedForever) return;
 
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    Position position =
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
+    if (!mounted) return;
     setState(() {
       _currentLocation = LatLng(position.latitude, position.longitude);
     });
@@ -140,7 +157,8 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
       return route.polylinePoints.any((point) =>
       _distance.as(LengthUnit.Kilometer, point, _startLocation!) < 0.05) &&
           route.polylinePoints.any((point) =>
-          _distance.as(LengthUnit.Kilometer, point, _destinationLocation!) < 0.05);
+          _distance.as(LengthUnit.Kilometer, point, _destinationLocation!) <
+              0.05);
     }).toList();
 
     setState(() {
@@ -157,32 +175,46 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     }
   }
 
+  // ✅ Map with optimized performance (no caching plugin)
   Widget _buildMap(List<Polyline> polylines) {
     return FlutterMap(
       mapController: _mapController,
       options: MapOptions(
         initialCenter: const LatLng(15.1353, 120.5894),
         initialZoom: 13.0,
+        interactionOptions: const InteractionOptions(
+          enableMultiFingerGestureRace: true,
+          flags: InteractiveFlag.all,
+          pinchZoomThreshold: 0.8,
+        ),
         onTap: (tapPosition, point) {
+          if (!mounted) return;
           setState(() {
             if (_startLocation == null) {
               _startLocation = point;
+              _showTemporaryInstruction('Start location set');
             } else if (_destinationLocation == null) {
               _destinationLocation = point;
+              _showTemporaryInstruction('Destination set');
               _findMatchingRoutes();
               _fitMarkersOnMap();
             } else {
               _startLocation = point;
               _destinationLocation = null;
               _matchingRoutes = [];
+              _showTemporaryInstruction('Start location reset');
             }
           });
         },
       ),
       children: [
+        // ✅ Optimized OSM tiles
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.sakay_ph',
+          maxZoom: 19,
+          keepBuffer: 3,
+          tileProvider: NetworkTileProvider(),
           tileBuilder: (context, widget, tile) {
             return ColorFiltered(
               colorFilter: const ColorFilter.matrix(<double>[
@@ -195,11 +227,15 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
             );
           },
         ),
+        // ✅ Light label overlay
         TileLayer(
           urlTemplate:
           'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',
           subdomains: const ['a', 'b', 'c', 'd'],
           userAgentPackageName: 'com.example.sakay_ph',
+          maxZoom: 19,
+          keepBuffer: 3,
+          tileProvider: NetworkTileProvider(),
         ),
         PolylineLayer(polylines: polylines),
         RouteMarkers(
@@ -221,7 +257,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
               ),
             ],
           ),
-
       ],
     );
   }
@@ -276,7 +311,8 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
               alignment: WrapAlignment.center,
               children: _matchingRoutes.map((route) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: route.color,
                     borderRadius: BorderRadius.circular(16),
@@ -320,20 +356,23 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     return Scaffold(
       body: Stack(
         children: [
-          _buildMap(polylines),
+          // ✅ Prevents excessive re-rendering
+          RepaintBoundary(
+            child: ClipRect(
+              child: _buildMap(polylines),
+            ),
+          ),
           Positioned(
             top: 50.0,
             left: 0,
             right: 0,
             child: const Center(child: JeepneyRouteSearch()),
           ),
-          if (_startLocation == null)
-            _buildInstructionBox('Tap on the map to set your start location')
-          else if (_destinationLocation == null)
-            _buildInstructionBox('Tap on the map to set your destination')
-          else if (_matchingRoutes.isEmpty)
-              _buildInstructionBox('No matching routes found. Try different locations.')
-            else
+          if (_showInstruction)
+            _buildInstructionBox(_instructionMessage)
+          else if (_matchingRoutes.isEmpty && _startLocation != null && _destinationLocation != null)
+            _buildInstructionBox('No matching routes found. Try different locations.')
+          else if (_matchingRoutes.isNotEmpty)
               _buildRoutesFoundBox(),
           if (_startLocation != null || _destinationLocation != null)
             Positioned(
@@ -360,9 +399,22 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
           ),
         ],
       ),
+
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          const SizedBox(height: 16),
+          FloatingActionButton(
+            backgroundColor: Colors.brown,
+            child: const Icon(Icons.pets),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => const AssistantPopup(),
+              );
+            },
+          ),
+          const SizedBox(height: 13),
           FloatingActionButton(
             backgroundColor: Colors.white,
             onPressed: () {
