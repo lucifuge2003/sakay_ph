@@ -4,6 +4,7 @@ import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_m
 import 'package:sakay_ph/screens/startup_page.dart';
 import 'package:sakay_ph/screens/loading_page.dart';
 import 'package:sakay_ph/screens/login_page.dart';
+import 'package:sakay_ph/screens/profile_page.dart';
 import 'package:sakay_ph/services/supabase_config.dart';
 import 'package:sakay_ph/services/auth_state_manager.dart';
 
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoadingPage(),
         '/startup': (context) => const StartupPage(),
         '/login': (context) => const LoginPage(),
+        '/profile': (context) => const ProfilePage(),
       },
     );
   }

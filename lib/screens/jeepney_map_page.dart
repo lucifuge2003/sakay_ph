@@ -6,6 +6,8 @@ import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_m
 import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart';
 import 'package:sakay_ph/widgets/search_bar.dart';
 import 'package:sakay_ph/widgets/routes_bottom_sheet.dart';
+import 'package:sakay_ph/utils/page_transitions.dart';
+import 'profile_page.dart';
 
 /// A stateful widget that represents the main map page of the application.
 class JeepneyMapPage extends StatefulWidget {
@@ -140,11 +142,33 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
           ),
         ],
       ),
-      // A floating action button to open the bottom sheet for route selection.
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFFB89B6E),
-        onPressed: () => _showRoutesBottomSheet(context),
-        child: const Icon(Icons.directions_bus),
+      // Floating action buttons
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          // Profile button
+          FloatingActionButton(
+            backgroundColor: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                context,
+                SlidePageRoute(
+                  child: const ProfilePage(),
+                  direction: SlideDirection.rightToLeft,
+                  duration: const Duration(milliseconds: 350),
+                ),
+              );
+            },
+            child: const Icon(Icons.person, color: Colors.black),
+          ),
+          const SizedBox(height: 16),
+          // Routes button
+          FloatingActionButton(
+            backgroundColor: const Color(0xFFB89B6E),
+            onPressed: () => _showRoutesBottomSheet(context),
+            child: const Icon(Icons.directions_bus),
+          ),
+        ],
       ),
     );
   }
