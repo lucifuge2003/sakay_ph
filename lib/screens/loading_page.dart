@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sakay_ph/screens/startup_page.dart';
-import 'package:sakay_ph/screens/jeepney_map_page.dart';
+import 'package:sakay_ph/features/routes_list/data/presentation/jeepney_map_page.dart';
 import 'package:sakay_ph/services/auth_state_manager.dart';
 
 /// Simple Loading/Splash screen with smooth transition to StartupPage
