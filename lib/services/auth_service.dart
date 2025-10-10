@@ -96,6 +96,20 @@ class AuthService {
     }
   }
 
+  /// Update user metadata
+  static Future<UserResponse> updateUserMetadata(Map<String, dynamic> data) async {
+    try {
+      final response = await _supabase.auth.updateUser(
+        UserAttributes(data: data),
+      );
+      return response;
+    } on AuthException catch (error) {
+      throw Exception(error.message);
+    } catch (error) {
+      throw Exception('An unexpected error occurred: $error');
+    }
+  }
+
   /// Get user by email (for debugging)
   static Future<User?> getUserByEmail(String email) async {
     try {

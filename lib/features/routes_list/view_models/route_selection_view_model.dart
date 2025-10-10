@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart'; // Core Flutter widgets and ChangeNotifier.
 import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart'; // The data model for a single jeepney route.
 import 'package:sakay_ph/features/routes_list/data/initial_data/initial_jeepney_routes.dart'; // Import the new data file
+import 'package:sakay_ph/services/route_history_service.dart'; // Import route history service
 
 /// A [ChangeNotifier] that manages the currently selected jeepney route.
 ///
@@ -47,6 +48,8 @@ class RouteSelectionViewModel extends ChangeNotifier {
     // Only update and notify if the route is actually changing
     if (_selectedRoute != route) {
       _selectedRoute = route;
+      // Save route to history
+      RouteHistoryService.saveRoute(route);
       notifyListeners();
     }
   }

@@ -13,7 +13,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     id: 'capaya',
     name: 'Capaya - Angeles',
     color: const Color.fromARGB(255, 203, 71, 141),
-    startingPoint: ' ',
+    startingPoint: 'San Vicente Street',
 
     /// The list of [LatLng] points for this route's path.
     /// This route currently has no points and needs to be populated
@@ -225,7 +225,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     id: 'carmenville',
     name: 'Carmenville - Angeles',
     color: const Color.fromARGB(255, 235, 120, 25),
-    startingPoint: ' ',
+    startingPoint: 'Sunset, Nepo',
 
     /// The list of [LatLng] points for this route's path.
     /// This route currently has no points and needs to be populated
@@ -558,7 +558,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     id: 'pandan',
     name: 'Pandan - Angeles',
     color: const Color.fromARGB(255, 25, 137, 235),
-    startingPoint: ' ',
+    startingPoint: 'Marquee Mall Terminal',
 
     /// The list of [LatLng] points for this route's path.
     /// This route currently has no points and needs to be populated
@@ -797,7 +797,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     id: 'checkpoint-balibago',
     name: 'Checkpoint - Holy Angel University - Balibago',
     color: const Color.fromARGB(255, 87, 79, 84),
-    startingPoint: ' ',
+    startingPoint: 'SMC Checkpoint',
 
     /// The list of [LatLng] points for this route's path.
     /// This route currently has no points and needs to be populated
@@ -816,7 +816,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     id: 'hensonville',
     name: 'Checkpoint - Hensonville - Angeles',
     color: const Color.fromARGB(255, 235, 232, 233),
-    startingPoint: ' ',
+    startingPoint: 'SMC Checkpoint',
 
     /// The list of [LatLng] points for this route's path.
     /// This route currently has no points and needs to be populated
@@ -835,7 +835,7 @@ final initialJeepneyRoutes = <JeepneyRoute>[
     id: 'friendship',
     name: 'Friendship Highway - Angeles',
     color: const Color.fromARGB(255, 225, 172, 125),
-    startingPoint: ' ',
+    startingPoint: 'Friendship Highway',
 
     /// The list of [LatLng] points for this route's path.
     /// This route currently has no points and needs to be populated
