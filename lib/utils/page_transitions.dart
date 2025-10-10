@@ -11,38 +11,38 @@ class SlidePageRoute<T> extends PageRouteBuilder<T> {
     this.direction = SlideDirection.rightToLeft,
     this.duration = const Duration(milliseconds: 300),
   }) : super(
-          pageBuilder: (context, animation, secondaryAnimation) => child,
-          transitionDuration: duration,
-          reverseTransitionDuration: duration,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            // Slide animation
-            final slideAnimation = Tween<Offset>(
-              begin: _getSlideBegin(direction),
-              end: Offset.zero,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOutCubic,
-            ));
+    pageBuilder: (context, animation, secondaryAnimation) => child,
+    transitionDuration: duration,
+    reverseTransitionDuration: duration,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      // Slide animation
+      final slideAnimation = Tween<Offset>(
+        begin: _getSlideBegin(direction),
+        end: Offset.zero,
+      ).animate(CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOutCubic,
+      ));
 
-            // Fade animation
-            final fadeAnimation = Tween<double>(
-              begin: 0.0,
-              end: 1.0,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOut,
-            ));
+      // Fade animation
+      final fadeAnimation = Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOut,
+      ));
 
-            // Combine slide and fade
-            return SlideTransition(
-              position: slideAnimation,
-              child: FadeTransition(
-                opacity: fadeAnimation,
-                child: child,
-              ),
-            );
-          },
-        );
+      // Combine slide and fade
+      return SlideTransition(
+        position: slideAnimation,
+        child: FadeTransition(
+          opacity: fadeAnimation,
+          child: child,
+        ),
+      );
+    },
+  );
 
   static Offset _getSlideBegin(SlideDirection direction) {
     switch (direction) {
@@ -75,38 +75,38 @@ class ScalePageRoute<T> extends PageRouteBuilder<T> {
     required this.child,
     this.duration = const Duration(milliseconds: 300),
   }) : super(
-          pageBuilder: (context, animation, secondaryAnimation) => child,
-          transitionDuration: duration,
-          reverseTransitionDuration: duration,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            // Scale animation
-            final scaleAnimation = Tween<double>(
-              begin: 0.8,
-              end: 1.0,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOutCubic,
-            ));
+    pageBuilder: (context, animation, secondaryAnimation) => child,
+    transitionDuration: duration,
+    reverseTransitionDuration: duration,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      // Scale animation
+      final scaleAnimation = Tween<double>(
+        begin: 0.8,
+        end: 1.0,
+      ).animate(CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOutCubic,
+      ));
 
-            // Fade animation
-            final fadeAnimation = Tween<double>(
-              begin: 0.0,
-              end: 1.0,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOut,
-            ));
+      // Fade animation
+      final fadeAnimation = Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOut,
+      ));
 
-            // Combine scale and fade
-            return ScaleTransition(
-              scale: scaleAnimation,
-              child: FadeTransition(
-                opacity: fadeAnimation,
-                child: child,
-              ),
-            );
-          },
-        );
+      // Combine scale and fade
+      return ScaleTransition(
+        scale: scaleAnimation,
+        child: FadeTransition(
+          opacity: fadeAnimation,
+          child: child,
+        ),
+      );
+    },
+  );
 }
 
 /// Custom page route with rotation and fade transitions
@@ -118,36 +118,36 @@ class RotatePageRoute<T> extends PageRouteBuilder<T> {
     required this.child,
     this.duration = const Duration(milliseconds: 400),
   }) : super(
-          pageBuilder: (context, animation, secondaryAnimation) => child,
-          transitionDuration: duration,
-          reverseTransitionDuration: duration,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            // Rotation animation
-            final rotationAnimation = Tween<double>(
-              begin: 0.0,
-              end: 1.0,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOutCubic,
-            ));
+    pageBuilder: (context, animation, secondaryAnimation) => child,
+    transitionDuration: duration,
+    reverseTransitionDuration: duration,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      // Rotation animation
+      final rotationAnimation = Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOutCubic,
+      ));
 
-            // Fade animation
-            final fadeAnimation = Tween<double>(
-              begin: 0.0,
-              end: 1.0,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOut,
-            ));
+      // Fade animation
+      final fadeAnimation = Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOut,
+      ));
 
-            // Combine rotation and fade
-            return RotationTransition(
-              turns: rotationAnimation,
-              child: FadeTransition(
-                opacity: fadeAnimation,
-                child: child,
-              ),
-            );
-          },
-        );
+      // Combine rotation and fade
+      return RotationTransition(
+        turns: rotationAnimation,
+        child: FadeTransition(
+          opacity: fadeAnimation,
+          child: child,
+        ),
+      );
+    },
+  );
 }

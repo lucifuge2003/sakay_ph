@@ -4,7 +4,7 @@ import '../utils/page_transitions.dart';
 import '../services/auth_service.dart';
 import '../utils/auth_debug.dart';
 import 'login_page.dart';
-import 'jeepney_map_page.dart';
+import '../features/routes_list/data/presentation/jeepney_map_page.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);

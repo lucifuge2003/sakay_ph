@@ -76,10 +76,12 @@ class JeepneyRoutesLoader {
         }).toList();
 
         return JeepneyRoute(
-          id: routeJson['id'],
-          name: routeJson['name'],
-          color: _hexToColor(routeJson['color']),
-          startingPoint: routeJson['starting_point'],
+          id: routeJson['id'] as String,
+          name: routeJson['name'] as String,
+          color: _hexToColor(routeJson['color'] as String),
+          startingPoint: routeJson['starting_point'] as String,
+          description: routeJson['description'] as String,           // ✅ Add this
+          popularDropPoints: routeJson['popular_drop_points'] as String, // ✅ Add this
           polylinePoints: polylinePoints,
         );
       }).toList();

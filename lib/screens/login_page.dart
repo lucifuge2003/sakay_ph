@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'jeepney_map_page.dart';
+import '../features/routes_list/data/presentation/jeepney_map_page.dart';
 import 'signup_page.dart';
 import '../utils/page_transitions.dart';
 import '../services/auth_service.dart';
