@@ -13,16 +13,15 @@ class StartupPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFFFF7D0),
-              Color(0xFFFFFFFF),
-              Color(0xFFC8AD7E),
-            ],
+            colors: [Color(0xFFFFF7D0), Color(0xFFFFFFFF), Color(0xFFC8AD7E)],
           ),
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0), 
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 16.0,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -60,10 +59,10 @@ class StartupPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                
+
                 // Content section
-                Expanded( 
-                  child: SingleChildScrollView( 
+                Expanded(
+                  child: SingleChildScrollView(
                     child: Column(
                       children: [
                         const Text(
@@ -97,7 +96,7 @@ class StartupPage extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 32),
-                        
+
                         const Text(
                           'Sakay na, tara na!',
                           style: TextStyle(
@@ -112,12 +111,11 @@ class StartupPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                
+
                 // Button section
                 Column(
                   children: [
-                    SizedBox(
-                      width: double.infinity, 
+                    Center(
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
