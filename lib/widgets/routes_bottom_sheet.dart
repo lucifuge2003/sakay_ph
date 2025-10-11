@@ -1,13 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:sakay_ph/features/routes_list/data/initial_data/initial_jeepney_routes.dart';
+import 'package:sakay_ph/features/routes_list/data/services/jeepney_routes_service.dart';
 import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_model.dart';
 import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart';
 import 'package:sakay_ph/features/routes_list/data/presentation/jeepney_map_page.dart';
 
-class JeepneyRoutesBottomSheet extends StatelessWidget {
+class JeepneyRoutesBottomSheet extends StatefulWidget {
   const JeepneyRoutesBottomSheet({super.key});
+
+  @override
+  State<JeepneyRoutesBottomSheet> createState() => _JeepneyRoutesBottomSheetState();
+}
+
+class _JeepneyRoutesBottomSheetState extends State<JeepneyRoutesBottomSheet> {
+  List<JeepneyRoute> _routes = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRoutes();
+  }
+
+  Future<void> _loadRoutes() async {
+    try {
+      final routes = await JeepneyRoutesService.getRoutes();
+      if (mounted) {
+        setState(() {
+          _routes = routes;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to load routes: $e')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +75,15 @@ class JeepneyRoutesBottomSheet extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Expanded(
-            child: ListView.builder(
-              itemCount: initialJeepneyRoutes.length,
-              itemBuilder: (context, index) {
-                final route = initialJeepneyRoutes[index];
-                return _buildRouteCard(context, route, viewModel);
-              },
-            ),
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: _routes.length,
+                    itemBuilder: (context, index) {
+                      final route = _routes[index];
+                      return _buildRouteCard(context, route, viewModel);
+                    },
+                  ),
           ),
         ],
       ),

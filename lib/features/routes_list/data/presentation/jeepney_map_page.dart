@@ -11,7 +11,7 @@ import 'package:sakay_ph/widgets/routes_bottom_sheet.dart';
 import 'package:sakay_ph/utils/page_transitions.dart';
 import '../../../../screens/profile_page.dart';
 import '../map/route_markers.dart';
-import '../../data/initial_data/initial_jeepney_routes.dart';
+import '../../data/services/jeepney_routes_service.dart';
 import '../../data/map/jeepney_info_dialog.dart';
 import 'package:latlong2/latlong.dart' show Distance, LengthUnit;
 
@@ -80,20 +80,31 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
   void didChangeDependencies() {
     super.didChangeDependencies();
     final viewModel = context.watch<RouteSelectionViewModel>();
-    final selectedRoute = widget.routeId != null
-        ? viewModel.getRouteById(widget.routeId!)
-        : viewModel.selectedRoute;
-
-    if (selectedRoute != null && selectedRoute != _previousSelectedRoute) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _fitRouteOnMap(selectedRoute.polylinePoints);
-        _previousSelectedRoute = selectedRoute;
+    
+    if (widget.routeId != null) {
+      // Handle async route loading
+      viewModel.getRouteById(widget.routeId!).then((selectedRoute) {
+        if (selectedRoute != null && selectedRoute != _previousSelectedRoute) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _fitRouteOnMap(selectedRoute.polylinePoints);
+            _previousSelectedRoute = selectedRoute;
+          });
+        }
       });
-    } else if (selectedRoute == null && _previousSelectedRoute != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _mapController.move(const LatLng(15.1353, 120.5894), 13.0);
-        _previousSelectedRoute = null;
-      });
+    } else {
+      // Handle synchronous route selection
+      final selectedRoute = viewModel.selectedRoute;
+      if (selectedRoute != null && selectedRoute != _previousSelectedRoute) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _fitRouteOnMap(selectedRoute.polylinePoints);
+          _previousSelectedRoute = selectedRoute;
+        });
+      } else if (selectedRoute == null && _previousSelectedRoute != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _mapController.move(const LatLng(15.1353, 120.5894), 13.0);
+          _previousSelectedRoute = null;
+        });
+      }
     }
   }
 
@@ -131,10 +142,11 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     });
   }
 
-  void _findMatchingRoutes() {
+  Future<void> _findMatchingRoutes() async {
     if (_startLocation == null || _destinationLocation == null) return;
 
-    final List<JeepneyRoute> allRoutes = initialJeepneyRoutes;
+    try {
+      final List<JeepneyRoute> allRoutes = await JeepneyRoutesService.getRoutes();
 
     final matches = allRoutes.where((route) {
       return route.polylinePoints.any((point) =>
@@ -143,17 +155,22 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
           _distance.as(LengthUnit.Kilometer, point, _destinationLocation!) < 0.05);
     }).toList();
 
-    setState(() {
-      _matchingRoutes = matches;
-    });
+      if (mounted) {
+        setState(() {
+          _matchingRoutes = matches;
+        });
 
-    if (matches.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('No jeepney routes found between these points'),
-          duration: Duration(seconds: 3),
-        ),
-      );
+        if (matches.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('No jeepney routes found between these points'),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('Error finding matching routes: $e');
     }
   }
 
@@ -254,7 +271,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.green.shade700,
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
@@ -263,7 +280,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
             Text(
               '${_matchingRoutes.length} route(s) found!',
               style: const TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -284,7 +301,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
                   child: Text(
                     route.name,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -301,21 +318,33 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<RouteSelectionViewModel>();
-    final selectedRoute = widget.routeId != null
-        ? viewModel.getRouteById(widget.routeId!)
-        : viewModel.selectedRoute;
+    
+    return FutureBuilder<JeepneyRoute?>(
+      future: widget.routeId != null 
+          ? viewModel.getRouteById(widget.routeId!)
+          : Future.value(viewModel.selectedRoute),
+      builder: (context, snapshot) {
+        final selectedRoute = snapshot.data;
+        final polylines = <Polyline>[];
 
-    final polylines = <Polyline>[];
-
-    if (selectedRoute != null) {
-      polylines.add(
-        Polyline(
-          points: selectedRoute.polylinePoints,
-          color: selectedRoute.color,
-          strokeWidth: 5.0,
-        ),
-      );
-    }
+        if (selectedRoute != null) {
+          // Add black border for better visibility
+          polylines.add(
+            Polyline(
+              points: selectedRoute.polylinePoints,
+              color: Colors.black,
+              strokeWidth: 7.0,
+            ),
+          );
+          // Add colored line on top
+          polylines.add(
+            Polyline(
+              points: selectedRoute.polylinePoints,
+              color: selectedRoute.color,
+              strokeWidth: 3.0,
+            ),
+          );
+        }
 
     return Scaffold(
       body: Stack(
@@ -385,6 +414,8 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
           ),
         ],
       ),
+    );
+      },
     );
   }
 }

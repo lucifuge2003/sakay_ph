@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart';
-import 'package:sakay_ph/features/routes_list/data/initial_data/initial_jeepney_routes.dart';
+import 'package:sakay_ph/features/routes_list/data/services/jeepney_routes_service.dart';
 import 'package:sakay_ph/services/route_history_service.dart';
 
 /// A [ChangeNotifier] that manages the currently selected jeepney route.
@@ -12,12 +12,13 @@ class RouteSelectionViewModel extends ChangeNotifier {
   JeepneyRoute? get selectedRoute => _selectedRoute;
 
   /// Sets the selected route using its unique ID.
-  void setSelectedRoute(String? routeId) {
+  Future<void> setSelectedRoute(String? routeId) async {
     if (routeId == null || routeId.isEmpty) {
       clearSelection();
     } else {
       try {
-        final route = initialJeepneyRoutes.firstWhere((r) => r.id == routeId);
+        final routes = await JeepneyRoutesService.getRoutes();
+        final route = routes.firstWhere((r) => r.id == routeId);
         selectRoute(route);
       } catch (e) {
         debugPrint(
@@ -54,10 +55,11 @@ class RouteSelectionViewModel extends ChangeNotifier {
   }
 
   /// ✅ NEW METHOD
-  /// Returns a route by its ID from the initial routes list.
-  JeepneyRoute? getRouteById(String routeId) {
+  /// Returns a route by its ID from the routes service.
+  Future<JeepneyRoute?> getRouteById(String routeId) async {
     try {
-      return initialJeepneyRoutes.firstWhere((r) => r.id == routeId);
+      final routes = await JeepneyRoutesService.getRoutes();
+      return routes.firstWhere((r) => r.id == routeId);
     } catch (e) {
       debugPrint('Route with ID "$routeId" not found. Error: $e');
       return null;

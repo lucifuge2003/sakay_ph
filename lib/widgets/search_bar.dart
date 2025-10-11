@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart';
 import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_model.dart';
-import 'package:sakay_ph/features/routes_list/data/initial_data/initial_jeepney_routes.dart';
+import 'package:sakay_ph/features/routes_list/data/services/jeepney_routes_service.dart';
 
 /// A comprehensive search widget that includes the input field and the
 /// dynamically generated suggestion list for jeepney routes.
@@ -24,7 +24,7 @@ class _JeepneyRouteSearchState extends State<JeepneyRouteSearch> {
   bool _settingTextProgrammatically = false;
 
   /// The list of all available jeepney routes for searching.
-  late final List<JeepneyRoute> _allRoutes;
+  List<JeepneyRoute> _allRoutes = [];
 
   /// The list of routes that match the current search query.
   List<JeepneyRoute> _filteredRoutes = [];
@@ -38,14 +38,30 @@ class _JeepneyRouteSearchState extends State<JeepneyRouteSearch> {
   @override
   void initState() {
     super.initState();
-    // Initialize the list of all routes from the static data.
-    _allRoutes = [...initialJeepneyRoutes];
+    // Load routes from JSON service
+    _loadRoutes();
 
     // Listen for text changes to trigger filtering.
     _searchController.addListener(_onSearchTextChanged);
 
     // Listen for focus changes to control suggestion visibility.
     _focusNode.addListener(_onFocusChanged);
+  }
+
+  /// Loads jeepney routes from the JSON service
+  Future<void> _loadRoutes() async {
+    try {
+      _allRoutes = await JeepneyRoutesService.getRoutes();
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to load routes: $e')),
+        );
+      }
+    }
   }
 
   @override
