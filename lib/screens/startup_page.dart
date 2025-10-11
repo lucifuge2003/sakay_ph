@@ -60,63 +60,62 @@ class StartupPage extends StatelessWidget {
                   ],
                 ),
 
-                // Content section
+                // Content section with "Sakay na, tara na!" moved here
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Welcome to Sake Na!',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            height: 1.5,
-                          ),
-                          textAlign: TextAlign.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Welcome to Sake Na!',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                          height: 1.5,
                         ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Your smart guide to jeepney routes in Angeles City.',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            height: 1.5,
-                          ),
-                          textAlign: TextAlign.center,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Your smart guide to jeepney routes in Angeles City.',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          height: 1.5,
                         ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Find the fastest, easiest, and most convenient way to reach your destination—without the hassle.',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            height: 1.5,
-                          ),
-                          textAlign: TextAlign.center,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Find the fastest, easiest, and most convenient way to reach your destination—without the hassle.',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          height: 1.5,
                         ),
-                        const SizedBox(height: 32),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 32),
 
-                        const Text(
-                          'Sakay na, tara na!',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontStyle: FontStyle.italic,
-                          ),
+                      const Text(
+                        'Sakay na, tara na!',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                          fontStyle: FontStyle.italic,
                         ),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
 
-                // Button section
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(
                       child: Container(
+                        margin: const EdgeInsets.only(bottom: 60),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           boxShadow: [

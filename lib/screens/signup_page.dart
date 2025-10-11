@@ -19,7 +19,7 @@ class _SignupPageState extends State<SignupPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _fullNameController = TextEditingController();
-  
+
   bool _isLoading = false;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -41,20 +41,17 @@ class _SignupPageState extends State<SignupPage> {
     });
 
     try {
-      // Debug: Show auth state before signup
       AuthDebug.showAuthState();
-      
+
       final response = await AuthService.signUp(
         email: _emailController.text.trim(),
         password: _passwordController.text,
         fullName: _fullNameController.text.trim(),
       );
-      
-      // Debug: Show auth state after signup
+
       AuthDebug.showAuthState();
 
       if (response.user != null && response.session != null) {
-        // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Account created successfully! Welcome to Sake Na!'),
@@ -63,16 +60,14 @@ class _SignupPageState extends State<SignupPage> {
           ),
         );
 
-        // Test the credentials to ensure they work for login
         final credentialsWork = await AuthService.testCredentials(
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );
 
         if (credentialsWork) {
-          // Navigate directly to map page after successful signup
           await Future.delayed(const Duration(milliseconds: 500));
-          
+
           if (mounted) {
             Navigator.pushReplacement(
               context,
@@ -83,18 +78,19 @@ class _SignupPageState extends State<SignupPage> {
             );
           }
         } else {
-          // If credentials don't work, navigate to login page
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('Account created! Please sign in with your credentials.'),
+                content: Text(
+                  'Account created! Please sign in with your credentials.',
+                ),
                 backgroundColor: Colors.blue,
                 duration: Duration(seconds: 3),
               ),
             );
 
             await Future.delayed(const Duration(milliseconds: 500));
-            
+
             Navigator.pushReplacement(
               context,
               SlidePageRoute(
@@ -106,18 +102,18 @@ class _SignupPageState extends State<SignupPage> {
           }
         }
       } else if (response.user != null && response.session == null) {
-        // User created but not signed in (email confirmation required)
-        // Show message and navigate to login
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Account created! Please sign in with your credentials.'),
+            content: Text(
+              'Account created! Please sign in with your credentials.',
+            ),
             backgroundColor: Colors.blue,
             duration: Duration(seconds: 3),
           ),
         );
 
         await Future.delayed(const Duration(milliseconds: 500));
-        
+
         if (mounted) {
           Navigator.pushReplacement(
             context,
@@ -131,16 +127,17 @@ class _SignupPageState extends State<SignupPage> {
       }
     } catch (e) {
       String errorMessage = e.toString().replaceFirst('Exception: ', '');
-      
-      // Customize error messages for better UX
+
       if (errorMessage.contains('User already registered')) {
-        errorMessage = 'An account with this email already exists. Please try signing in instead.';
+        errorMessage =
+            'An account with this email already exists. Please try signing in instead.';
       } else if (errorMessage.contains('Password should be at least')) {
         errorMessage = 'Password must be at least 6 characters long.';
       } else if (errorMessage.contains('Invalid email')) {
         errorMessage = 'Please enter a valid email address.';
       } else if (errorMessage.contains('Signup is disabled')) {
-        errorMessage = 'Account creation is temporarily disabled. Please try again later.';
+        errorMessage =
+            'Account creation is temporarily disabled. Please try again later.';
       } else if (errorMessage.contains('Unable to validate email address')) {
         errorMessage = 'Please enter a valid email address.';
       } else if (errorMessage.contains('Email not confirmed')) {
@@ -216,13 +213,15 @@ class _SignupPageState extends State<SignupPage> {
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Back button
                   const SizedBox(height: 5),
                   IconButton(
                     onPressed: () {
@@ -234,7 +233,6 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   const SizedBox(height: 5),
 
-                  // Logo
                   Center(
                     child: Container(
                       decoration: BoxDecoration(
@@ -259,7 +257,6 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Sign Up title
                   const Center(
                     child: Text(
                       'Sign up',
@@ -272,7 +269,6 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Full Name field
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -298,14 +294,16 @@ class _SignupPageState extends State<SignupPage> {
                           border: InputBorder.none,
                           labelText: 'Full Name',
                           labelStyle: const TextStyle(color: Colors.grey),
-                          prefixIcon: Icon(Icons.person, color: Colors.grey[600]),
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: Colors.grey[600],
+                          ),
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
 
-                  // Email field
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -332,14 +330,16 @@ class _SignupPageState extends State<SignupPage> {
                           border: InputBorder.none,
                           labelText: 'Email',
                           labelStyle: const TextStyle(color: Colors.grey),
-                          prefixIcon: Icon(Icons.email, color: Colors.grey[600]),
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Colors.grey[600],
+                          ),
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
 
-                  // Password field
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -369,7 +369,9 @@ class _SignupPageState extends State<SignupPage> {
                           prefixIcon: Icon(Icons.lock, color: Colors.grey[600]),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                              _obscurePassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               color: Colors.grey[600],
                             ),
                             onPressed: () {
@@ -384,7 +386,6 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Confirm Password field
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -411,15 +412,21 @@ class _SignupPageState extends State<SignupPage> {
                           border: InputBorder.none,
                           labelText: 'Confirm Password',
                           labelStyle: const TextStyle(color: Colors.grey),
-                          prefixIcon: Icon(Icons.lock_outline, color: Colors.grey[600]),
+                          prefixIcon: Icon(
+                            Icons.lock_outline,
+                            color: Colors.grey[600],
+                          ),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                              _obscureConfirmPassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               color: Colors.grey[600],
                             ),
                             onPressed: () {
                               setState(() {
-                                _obscureConfirmPassword = !_obscureConfirmPassword;
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
                               });
                             },
                           ),
@@ -429,7 +436,6 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Sign Up button
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -450,7 +456,10 @@ class _SignupPageState extends State<SignupPage> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
-                          side: const BorderSide(color: Colors.black, width: .5),
+                          side: const BorderSide(
+                            color: Colors.black,
+                            width: .5,
+                          ),
                         ),
                         elevation: 0,
                       ),
@@ -460,7 +469,9 @@ class _SignupPageState extends State<SignupPage> {
                               width: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.black,
+                                ),
                               ),
                             )
                           : const Text(
@@ -474,11 +485,10 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Already have an account link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(), // Empty space to balance the layout
+                      const SizedBox(),
                       TextButton(
                         onPressed: () {
                           Navigator.pushReplacement(
@@ -500,6 +510,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

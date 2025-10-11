@@ -39,7 +39,6 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       if (response.user != null && response.session != null) {
-        // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Welcome back!'),
@@ -48,7 +47,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
 
-        // Navigate to the main map page
         Navigator.pushReplacement(
           context,
           ScalePageRoute(
@@ -61,14 +59,15 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (e) {
       String errorMessage = e.toString().replaceFirst('Exception: ', '');
-      
-      // Customize error messages for better UX
+
       if (errorMessage.contains('Invalid login credentials')) {
-        errorMessage = 'Invalid email or password. Please check your credentials and try again.';
+        errorMessage =
+            'Invalid email or password. Please check your credentials and try again.';
       } else if (errorMessage.contains('Too many requests')) {
         errorMessage = 'Too many login attempts. Please try again later.';
       } else if (errorMessage.contains('User not found')) {
-        errorMessage = 'No account found with this email. Please sign up first.';
+        errorMessage =
+            'No account found with this email. Please sign up first.';
       } else if (errorMessage.contains('Login failed - no session created')) {
         errorMessage = 'Login failed. Please try again.';
       }
@@ -151,13 +150,15 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Back button
                   const SizedBox(height: 5),
                   IconButton(
                     onPressed: () {
@@ -169,7 +170,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 5),
 
-                  // Logo
                   Center(
                     child: Container(
                       decoration: BoxDecoration(
@@ -194,7 +194,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Sign In title
                   const Center(
                     child: Text(
                       'Sign in',
@@ -207,7 +206,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Email field
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -234,14 +232,16 @@ class _LoginPageState extends State<LoginPage> {
                           border: InputBorder.none,
                           labelText: 'Email',
                           labelStyle: const TextStyle(color: Colors.grey),
-                          prefixIcon: Icon(Icons.email, color: Colors.grey[600]),
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Colors.grey[600],
+                          ),
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
 
-                  // Password field
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -271,7 +271,9 @@ class _LoginPageState extends State<LoginPage> {
                           prefixIcon: Icon(Icons.lock, color: Colors.grey[600]),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                              _obscurePassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               color: Colors.grey[600],
                             ),
                             onPressed: () {
@@ -286,7 +288,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Start button
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -307,7 +308,10 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
-                          side: const BorderSide(color: Colors.black, width: .5),
+                          side: const BorderSide(
+                            color: Colors.black,
+                            width: .5,
+                          ),
                         ),
                         elevation: 0,
                       ),
@@ -317,7 +321,9 @@ class _LoginPageState extends State<LoginPage> {
                               width: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.black,
+                                ),
                               ),
                             )
                           : const Text(
@@ -331,7 +337,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Forgot password and sign up links
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -367,20 +372,20 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
 
-
                   const SizedBox(height: 20),
                   const Center(
                     child: Text(
                       'Sakay na, tara na!',
                       style: TextStyle(
-                        fontSize: 18, 
-                        fontWeight: FontWeight.w500, 
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                         color: Colors.black,
                         fontStyle: FontStyle.italic,
                         letterSpacing: 0.5,
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
