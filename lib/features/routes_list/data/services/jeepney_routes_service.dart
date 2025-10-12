@@ -77,7 +77,6 @@ class JeepneyRoutesService {
         .whereType<LatLng>()
         .toList(); // This ensures only valid LatLng objects are included.
 
-    // ✅ FIX: Using the safe _hexToColor function to prevent parsing errors.
     final Color color = _hexToColor(json['color'] as String? ?? 'FFFFFFFF');
 
     return JeepneyRoute(

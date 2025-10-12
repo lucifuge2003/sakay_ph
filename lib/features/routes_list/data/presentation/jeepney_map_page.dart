@@ -484,10 +484,10 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
                 right: 17.0,
                 child: FloatingActionButton.small(
                   heroTag: 'info',
-                  backgroundColor: const Color(0xFFB89B6E),
+                  backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                   onPressed: () => JeepneyInfoDialog.show(context),
                   tooltip: 'Instructions',
-                  child: const Icon(Icons.info_outline, color: Colors.white),
+                  child: const Icon(Icons.info_outline, color: Colors.black),
                 ),
               ),
               Positioned(
@@ -528,6 +528,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
             children: [
               FloatingActionButton(
                 heroTag: 'assistant',
+                tooltip: 'Voice Assistant',
                 backgroundColor: Theme.of(context).primaryColor,
                 child: const Icon(Icons.pets, color: Colors.black),
                 onPressed: () {
@@ -540,6 +541,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
               const SizedBox(height: 16),
               FloatingActionButton(
                 heroTag: 'profile',
+                tooltip: 'Profile',
                 backgroundColor: Colors.white,
                 onPressed: () {
                   Navigator.push(
@@ -556,6 +558,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
               const SizedBox(height: 16),
               FloatingActionButton(
                 heroTag: 'routes_list',
+                tooltip: 'Route List',
                 backgroundColor: const Color(0xFFB89B6E),
                 onPressed: () => _showRoutesBottomSheet(context),
                 child: const Icon(Icons.directions_bus),

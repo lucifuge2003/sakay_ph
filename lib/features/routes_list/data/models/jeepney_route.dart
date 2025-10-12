@@ -46,6 +46,7 @@ class JeepneyRoute {
     return {
       'id': id,
       'name': name,
+      // ignore: deprecated_member_use
       'color': color.value,
       'startingPoint': startingPoint,
       'description': description,

@@ -22,17 +22,19 @@ class StartupPage extends StatelessWidget {
               horizontal: 20.0,
               vertical: 16.0,
             ),
+            // START OF CHANGES: Replaced the layout logic for better spacing control
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // Removed MainAxisAlignment.spaceBetween
               children: [
+                // Top Section (Logo and Title)
                 Column(
                   children: [
+                    const SizedBox(height: 50),
                     Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            // ignore: deprecated_member_use
                             color: Colors.black.withOpacity(0.15),
                             blurRadius: 15,
                             offset: const Offset(0, 10),
@@ -48,11 +50,11 @@ class StartupPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 25),
                     const Text(
                       'Sake Na!',
                       style: TextStyle(
-                        fontSize: 36,
+                        fontSize: 34,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                         letterSpacing: 1.2,
@@ -60,63 +62,65 @@ class StartupPage extends StatelessWidget {
                     ),
                   ],
                 ),
-
-                // Content section with "Sakay na, tara na!" moved here
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Welcome to Sake Na!',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                          height: 1.5,
-                        ),
-                        textAlign: TextAlign.center,
+                const SizedBox(height: 30), // Added consistent spacing
+                // Middle Section (Welcome Text) - No longer Expanded
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Welcome to Sake Na!',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        height: 1.5,
                       ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Your smart guide to jeepney routes in Angeles City.',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          height: 1.5,
-                        ),
-                        textAlign: TextAlign.center,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Your smart guide to jeepney routes in Angeles City.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        height: 1.5,
                       ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Find the fastest, easiest, and most convenient way to reach your destination—without the hassle.',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          height: 1.5,
-                        ),
-                        textAlign: TextAlign.center,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Find the fastest, easiest, and most convenient way to reach your destination—without the hassle.',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black,
+                        height: 1.5,
                       ),
-                      const SizedBox(height: 32),
-
-                      const Text(
-                        'Sakay na, Tara Na!',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ],
-                  ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
 
+                // This Spacer pushes the content below it to the bottom of the screen
+                const Spacer(),
+
+                // Bottom Section (Tagline and Button)
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const Text(
+                      'Sakay na, Tara Na!',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    const SizedBox(height: 20), // Controlled space
                     Center(
                       child: Container(
-                        margin: const EdgeInsets.only(bottom: 60),
+                        margin: const EdgeInsets.only(
+                          bottom: 20,
+                        ), // Reduced bottom margin
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           boxShadow: [
@@ -155,7 +159,7 @@ class StartupPage extends StatelessWidget {
                             elevation: 0,
                           ),
                           child: const Text(
-                            'Sakay tayo',
+                            'Sakay Tayo',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -164,7 +168,6 @@ class StartupPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
                   ],
                 ),
               ],
