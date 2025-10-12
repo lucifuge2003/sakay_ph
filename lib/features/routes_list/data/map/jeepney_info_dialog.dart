@@ -40,7 +40,7 @@ class _JeepneyInfoDialogState extends State<JeepneyInfoDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.transparent, // transparent overlay
+      backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.all(20),
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 500),
