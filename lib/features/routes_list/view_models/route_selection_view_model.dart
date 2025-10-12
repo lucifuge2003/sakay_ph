@@ -54,7 +54,6 @@ class RouteSelectionViewModel extends ChangeNotifier {
     };
   }
 
-  /// ✅ NEW METHOD
   /// Returns a route by its ID from the routes service.
   Future<JeepneyRoute?> getRouteById(String routeId) async {
     try {

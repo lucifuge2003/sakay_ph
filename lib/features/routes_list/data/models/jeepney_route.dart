@@ -7,12 +7,8 @@ class JeepneyRoute {
   final String name;
   final Color color;
   final String startingPoint;
-
-  /// Optional textual description of the route
-  final String? description;
-
-  /// Optional popular drop points along the route
-  final String? popularDropPoints;
+  final String description;
+  final String popularDropPoints;
 
   final List<LatLng> polylinePoints;
 
@@ -21,8 +17,8 @@ class JeepneyRoute {
     required this.name,
     required this.color,
     required this.startingPoint,
-    this.description,
-    this.popularDropPoints,
+    required this.description,
+    required this.popularDropPoints,
     required this.polylinePoints,
   });
 
@@ -40,8 +36,8 @@ class JeepneyRoute {
       name: json['name'] as String,
       color: Color(json['color'] as int),
       startingPoint: json['startingPoint'] as String,
-      description: json['description'] as String?,
-      popularDropPoints: json['popularDropPoints'] as String?,
+      description: json['description'] as String,
+      popularDropPoints: json['popularDropPoints'] as String,
       polylinePoints: polylinePoints,
     );
   }

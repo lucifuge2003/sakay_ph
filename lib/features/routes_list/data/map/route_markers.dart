@@ -2,24 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-
 class RouteMarkers extends StatelessWidget {
   final LatLng? startLocation;
   final LatLng? destinationLocation;
 
-
   const RouteMarkers({super.key, this.startLocation, this.destinationLocation});
-
 
   @override
   Widget build(BuildContext context) {
     final markers = <Marker>[];
 
-
     if (startLocation != null) {
       markers.add(_buildMarker(startLocation!, Colors.green, "Start"));
     }
-
 
     if (destinationLocation != null) {
       markers.add(
@@ -27,10 +22,8 @@ class RouteMarkers extends StatelessWidget {
       );
     }
 
-
     return MarkerLayer(markers: markers);
   }
-
 
   Marker _buildMarker(LatLng point, Color color, String label) {
     return Marker(
@@ -96,6 +89,3 @@ class RouteMarkers extends StatelessWidget {
     );
   }
 }
-
-
-

@@ -7,24 +7,30 @@ import '../features/routes_list/data/models/jeepney_route.dart';
 /// Service to manage route history and saved routes
 class RouteHistoryService {
   static const String _routeHistoryKey = 'route_history';
-  static const int _maxHistorySize = 10; // Maximum number of routes to keep in history
+  static const int _maxHistorySize =
+      10; // Maximum number of routes to keep in history
 
   /// Save a route to history
   static Future<void> saveRoute(JeepneyRoute route) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final List<String> historyJson = prefs.getStringList(_routeHistoryKey) ?? [];
-      
+      final List<String> historyJson =
+          prefs.getStringList(_routeHistoryKey) ?? [];
+
       // Convert route to JSON
       final routeJson = jsonEncode({
         'id': route.id,
         'name': route.name,
         'color': route.color.value, // Store color as int value
         'startingPoint': route.startingPoint,
-        'polylinePoints': route.polylinePoints.map((point) => {
-          'latitude': point.latitude,
-          'longitude': point.longitude,
-        }).toList(),
+        'polylinePoints': route.polylinePoints
+            .map(
+              (point) => {
+                'latitude': point.latitude,
+                'longitude': point.longitude,
+              },
+            )
+            .toList(),
         'timestamp': DateTime.now().millisecondsSinceEpoch,
       });
 
@@ -52,8 +58,9 @@ class RouteHistoryService {
   static Future<List<JeepneyRoute>> getRouteHistory() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final List<String> historyJson = prefs.getStringList(_routeHistoryKey) ?? [];
-      
+      final List<String> historyJson =
+          prefs.getStringList(_routeHistoryKey) ?? [];
+
       return historyJson.map((routeJson) {
         final routeData = jsonDecode(routeJson);
         return JeepneyRoute(
@@ -64,6 +71,8 @@ class RouteHistoryService {
           polylinePoints: (routeData['polylinePoints'] as List).map((point) {
             return LatLng(point['latitude'], point['longitude']);
           }).toList(),
+          description: '',
+          popularDropPoints: '',
         );
       }).toList();
     } catch (e) {
@@ -86,8 +95,9 @@ class RouteHistoryService {
   static Future<void> removeRoute(String routeId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final List<String> historyJson = prefs.getStringList(_routeHistoryKey) ?? [];
-      
+      final List<String> historyJson =
+          prefs.getStringList(_routeHistoryKey) ?? [];
+
       historyJson.removeWhere((item) {
         final routeData = jsonDecode(item);
         return routeData['id'] == routeId;
@@ -100,11 +110,13 @@ class RouteHistoryService {
   }
 
   /// Get route history with timestamps
-  static Future<List<Map<String, dynamic>>> getRouteHistoryWithTimestamps() async {
+  static Future<List<Map<String, dynamic>>>
+  getRouteHistoryWithTimestamps() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final List<String> historyJson = prefs.getStringList(_routeHistoryKey) ?? [];
-      
+      final List<String> historyJson =
+          prefs.getStringList(_routeHistoryKey) ?? [];
+
       return historyJson.map((routeJson) {
         return jsonDecode(routeJson) as Map<String, dynamic>;
       }).toList();

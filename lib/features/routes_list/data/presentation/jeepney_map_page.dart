@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
-import 'package:geolocator/geolocator.dart'; // For GPS location
+import 'package:geolocator/geolocator.dart';
 import 'package:sakay_ph/features/routes_list/view_models/route_selection_view_model.dart';
 import 'package:sakay_ph/features/routes_list/data/models/jeepney_route.dart';
 import 'package:sakay_ph/widgets/search_bar.dart';
@@ -14,6 +14,7 @@ import '../map/route_markers.dart';
 import '../../data/services/jeepney_routes_service.dart';
 import '../../data/map/jeepney_info_dialog.dart';
 import 'package:latlong2/latlong.dart' show Distance, LengthUnit;
+import 'assistant_card.dart';
 
 class JeepneyMapPage extends StatefulWidget {
   final String? routeId;
@@ -31,26 +32,43 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
 
   LatLng? _startLocation;
   LatLng? _destinationLocation;
-  LatLng? _currentLocation; // GPS location
+  LatLng? _currentLocation;
   List<JeepneyRoute> _matchingRoutes = [];
   final Distance _distance = Distance();
+
+  // State for temporary instruction messages
+  bool _showInstruction = true;
+  String _instructionMessage = 'Tap on the map to set your start location';
 
   @override
   void initState() {
     super.initState();
-    // Hide Android navbar and status bar for a more immersive experience
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _getCurrentLocation();
   }
 
   @override
   void dispose() {
-    // Restore system UI on exit
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
   }
 
-  /// Fetches the user's current GPS location and moves the map to it.
+  /// Shows a temporary instruction message that fades out after a few seconds.
+  void _showTemporaryInstruction(String message, {int durationSeconds = 3}) {
+    if (!mounted) return;
+    setState(() {
+      _instructionMessage = message;
+      _showInstruction = true;
+    });
+
+    Future.delayed(Duration(seconds: durationSeconds), () {
+      if (mounted) {
+        setState(() => _showInstruction = false);
+      }
+    });
+  }
+
+  /// Fetches the user's current GPS location.
   Future<void> _getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -67,51 +85,42 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     if (permission == LocationPermission.deniedForever) return;
 
     Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+      desiredAccuracy: LocationAccuracy.high,
+    );
 
-    if (mounted) {
-      setState(() {
-        _currentLocation = LatLng(position.latitude, position.longitude);
-      });
-      _mapController.move(_currentLocation!, 15.0);
-    }
+    if (!mounted) return;
+    setState(() {
+      _currentLocation = LatLng(position.latitude, position.longitude);
+    });
+
+    _mapController.move(_currentLocation!, 15.0);
   }
 
-  /// Handles fitting the map to a selected route's bounds.
-  /// This logic now runs after the route is asynchronously loaded.
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final viewModel = context.watch<RouteSelectionViewModel>();
-    
-    // Asynchronously handle route loading if a routeId is passed
+
     if (widget.routeId != null) {
       viewModel.getRouteById(widget.routeId!).then((selectedRoute) {
         if (selectedRoute != null && selectedRoute != _previousSelectedRoute) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) {
-              _fitRouteOnMap(selectedRoute.polylinePoints);
-              _previousSelectedRoute = selectedRoute;
-            }
+            _fitRouteOnMap(selectedRoute.polylinePoints);
+            _previousSelectedRoute = selectedRoute;
           });
         }
       });
     } else {
-      // Handle synchronous route selection from the bottom sheet
       final selectedRoute = viewModel.selectedRoute;
       if (selectedRoute != null && selectedRoute != _previousSelectedRoute) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) {
-            _fitRouteOnMap(selectedRoute.polylinePoints);
-            _previousSelectedRoute = selectedRoute;
-          }
+          _fitRouteOnMap(selectedRoute.polylinePoints);
+          _previousSelectedRoute = selectedRoute;
         });
       } else if (selectedRoute == null && _previousSelectedRoute != null) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) {
-            _mapController.move(const LatLng(15.1353, 120.5894), 13.0);
-            _previousSelectedRoute = null;
-          }
+          _mapController.move(const LatLng(15.1353, 120.5894), 13.0);
+          _previousSelectedRoute = null;
         });
       }
     }
@@ -128,7 +137,10 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
 
   void _fitMarkersOnMap() {
     if (_startLocation != null && _destinationLocation != null) {
-      final bounds = LatLngBounds.fromPoints([_startLocation!, _destinationLocation!]);
+      final bounds = LatLngBounds.fromPoints([
+        _startLocation!,
+        _destinationLocation!,
+      ]);
       _mapController.fitCamera(
         CameraFit.bounds(bounds: bounds, padding: const EdgeInsets.all(80)),
       );
@@ -148,70 +160,75 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
       _startLocation = null;
       _destinationLocation = null;
       _matchingRoutes = [];
+      _showTemporaryInstruction('Tap on the map to set your start location');
     });
   }
 
-  /// Asynchronously finds jeepney routes that pass near both start and destination points.
+  /// Asynchronously finds routes from the service.
   Future<void> _findMatchingRoutes() async {
     if (_startLocation == null || _destinationLocation == null) return;
 
     try {
-      // Fetch routes from the service instead of a static list
-      final List<JeepneyRoute> allRoutes = await JeepneyRoutesService.getRoutes();
-
+      final List<JeepneyRoute> allRoutes =
+          await JeepneyRoutesService.getRoutes();
       final matches = allRoutes.where((route) {
-        // Check if any point on the route is within 50 meters of the start and destination
-        return route.polylinePoints.any((point) =>
-        _distance.as(LengthUnit.Meter, point, _startLocation!) < 50) &&
-            route.polylinePoints.any((point) =>
-            _distance.as(LengthUnit.Meter, point, _destinationLocation!) < 50);
+        return route.polylinePoints.any(
+              (point) =>
+                  _distance.as(LengthUnit.Meter, point, _startLocation!) < 50,
+            ) &&
+            route.polylinePoints.any(
+              (point) =>
+                  _distance.as(LengthUnit.Meter, point, _destinationLocation!) <
+                  50,
+            );
       }).toList();
 
-      // Check if the widget is still in the tree before calling setState
       if (mounted) {
         setState(() {
           _matchingRoutes = matches;
         });
-
         if (matches.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('No jeepney routes found between these points'),
-              duration: Duration(seconds: 3),
-            ),
+          _showTemporaryInstruction(
+            'No routes found. Try new locations.',
+            durationSeconds: 4,
           );
         }
       }
     } catch (e) {
       debugPrint('Error finding matching routes: $e');
-      if(mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Could not load route data. Please try again later.'),
-            ),
-          );
-      }
     }
   }
 
+  /// Builds the main map widget with performance optimizations.
   Widget _buildMap(List<Polyline> polylines) {
     return FlutterMap(
       mapController: _mapController,
       options: MapOptions(
         initialCenter: const LatLng(15.1353, 120.5894),
         initialZoom: 13.0,
+        interactionOptions: const InteractionOptions(
+          flags: InteractiveFlag.all,
+        ),
         onTap: (tapPosition, point) {
+          if (!mounted) return;
           setState(() {
             if (_startLocation == null) {
               _startLocation = point;
+              _showTemporaryInstruction(
+                'Start location set. Now set destination.',
+              );
             } else if (_destinationLocation == null) {
               _destinationLocation = point;
+              _showTemporaryInstruction('Finding routes...');
               _findMatchingRoutes();
               _fitMarkersOnMap();
             } else {
               _startLocation = point;
               _destinationLocation = null;
               _matchingRoutes = [];
+              _showTemporaryInstruction(
+                'Start location reset. Now set destination.',
+              );
             }
           });
         },
@@ -220,25 +237,41 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.sakay_ph',
+          tileProvider: NetworkTileProvider(),
           tileBuilder: (context, widget, tile) {
-            // Apply a grayscale filter to the base map tiles
             return ColorFiltered(
               colorFilter: const ColorFilter.matrix(<double>[
-                0.2126, 0.7152, 0.0722, 0, 0,
-                0.2126, 0.7152, 0.0722, 0, 0,
-                0.2126, 0.7152, 0.0722, 0, 0,
-                0, 0, 0, 1, 0,
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
               ]),
               child: widget,
             );
           },
         ),
         TileLayer(
-          // Layer for labels only, to keep them colored and readable
           urlTemplate:
-          'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',
+              'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',
           subdomains: const ['a', 'b', 'c', 'd'],
           userAgentPackageName: 'com.example.sakay_ph',
+          tileProvider: NetworkTileProvider(),
         ),
         PolylineLayer(polylines: polylines),
         RouteMarkers(
@@ -264,16 +297,26 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     );
   }
 
-  Widget _buildInstructionBox(String message) {
-    return Positioned(
-      bottom: 80.0,
+  /// Builds the instruction or route info box at the bottom of the screen.
+  Widget _buildInfoBox(String message) {
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      bottom: _showInstruction ? 80.0 : -100.0, // Animate in/out
       left: 20.0,
       right: 20.0,
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.black87,
-          borderRadius: BorderRadius.circular(8),
+          color: Colors.black.withOpacity(0.85),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 10,
+              offset: Offset(0, 4),
+            ),
+          ],
         ),
         child: Text(
           message,
@@ -292,7 +335,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor, // Using theme color
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
@@ -301,7 +344,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
             Text(
               '${_matchingRoutes.length} route(s) found!',
               style: const TextStyle(
-                color: Colors.black, // Adjusted for light primary color
+                color: Colors.black,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -314,7 +357,10 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
               alignment: WrapAlignment.center,
               children: _matchingRoutes.map((route) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: route.color,
                     borderRadius: BorderRadius.circular(16),
@@ -322,7 +368,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
                   child: Text(
                     route.name,
                     style: const TextStyle(
-                      color: Colors.black, // Adjusted for light route colors
+                      color: Colors.black,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -339,10 +385,9 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<RouteSelectionViewModel>();
-    
-    // Use FutureBuilder to handle async loading of the selected route
+
     return FutureBuilder<JeepneyRoute?>(
-      future: widget.routeId != null 
+      future: widget.routeId != null
           ? viewModel.getRouteById(widget.routeId!)
           : Future.value(viewModel.selectedRoute),
       builder: (context, snapshot) {
@@ -350,7 +395,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
         final polylines = <Polyline>[];
 
         if (selectedRoute != null) {
-          // Add black border for better visibility
           polylines.add(
             Polyline(
               points: selectedRoute.polylinePoints,
@@ -358,7 +402,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
               strokeWidth: 7.0,
             ),
           );
-          // Add colored line on top
           polylines.add(
             Polyline(
               points: selectedRoute.polylinePoints,
@@ -368,75 +411,88 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
           );
         }
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          _buildMap(polylines),
-          Positioned(
-            top: 50.0,
-            left: 0,
-            right: 0,
-            child: const Center(child: JeepneyRouteSearch()),
-          ),
-          if (_startLocation == null)
-            _buildInstructionBox('Tap on the map to set your start location')
-          else if (_destinationLocation == null)
-            _buildInstructionBox('Tap on the map to set your destination')
-          else if (_matchingRoutes.isEmpty)
-              _buildInstructionBox('No matching routes found. Try different locations.')
-            else
-              _buildRoutesFoundBox(),
-          if (_startLocation != null || _destinationLocation != null)
-            Positioned(
-              top: 110.0,
-              right: 10.0,
-              child: FloatingActionButton.small(
-                heroTag: 'clear_markers',
-                backgroundColor: Colors.red,
-                onPressed: _clearMarkers,
-                tooltip: 'Clear Markers',
-                child: const Icon(Icons.clear, color: Colors.white),
+        return Scaffold(
+          body: Stack(
+            children: [
+              RepaintBoundary(child: ClipRect(child: _buildMap(polylines))),
+              Positioned(
+                top: 50.0,
+                left: 0,
+                right: 0,
+                child: const Center(child: JeepneyRouteSearch()),
               ),
-            ),
-          Positioned(
-            top: 110.0,
-            left: 10.0,
-            child: FloatingActionButton.small(
-              heroTag: 'info',
-              backgroundColor: const Color(0xFFB89B6E),
-              onPressed: () => JeepneyInfoDialog.show(context),
-              tooltip: 'Instructions',
-              child: const Icon(Icons.info_outline, color: Colors.white),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            backgroundColor: Colors.white,
-            onPressed: () {
-              Navigator.push(
-                context,
-                SlidePageRoute(
-                  child: const ProfilePage(),
-                  direction: SlideDirection.rightToLeft,
-                  duration: const Duration(milliseconds: 350),
+
+              // Logic for displaying info boxes
+              if (_matchingRoutes.isNotEmpty)
+                _buildRoutesFoundBox()
+              else
+                _buildInfoBox(_instructionMessage),
+
+              if (_startLocation != null || _destinationLocation != null)
+                Positioned(
+                  top: 110.0,
+                  right: 10.0,
+                  child: FloatingActionButton.small(
+                    heroTag: 'clear_markers',
+                    backgroundColor: Colors.red,
+                    onPressed: _clearMarkers,
+                    tooltip: 'Clear Markers',
+                    child: const Icon(Icons.clear, color: Colors.white),
+                  ),
                 ),
-              );
-            },
-            child: const Icon(Icons.person, color: Colors.black),
+              Positioned(
+                top: 110.0,
+                left: 10.0,
+                child: FloatingActionButton.small(
+                  heroTag: 'info',
+                  backgroundColor: const Color(0xFFB89B6E),
+                  onPressed: () => JeepneyInfoDialog.show(context),
+                  tooltip: 'Instructions',
+                  child: const Icon(Icons.info_outline, color: Colors.white),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          FloatingActionButton(
-            backgroundColor: const Color(0xFFB89B6E),
-            onPressed: () => _showRoutesBottomSheet(context),
-            child: const Icon(Icons.directions_bus),
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                heroTag: 'assistant',
+                backgroundColor: Theme.of(context).primaryColor,
+                child: const Icon(Icons.pets, color: Colors.black),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => const AssistantPopup(),
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+              FloatingActionButton(
+                heroTag: 'profile',
+                backgroundColor: Colors.white,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    SlidePageRoute(
+                      child: const ProfilePage(),
+                      direction: SlideDirection.rightToLeft,
+                      duration: const Duration(milliseconds: 350),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.person, color: Colors.black),
+              ),
+              const SizedBox(height: 16),
+              FloatingActionButton(
+                heroTag: 'routes_list',
+                backgroundColor: const Color(0xFFB89B6E),
+                onPressed: () => _showRoutesBottomSheet(context),
+                child: const Icon(Icons.directions_bus),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        );
       },
     );
   }
