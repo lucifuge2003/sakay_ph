@@ -32,6 +32,7 @@ class StartupPage extends StatelessWidget {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
+                            // ignore: deprecated_member_use
                             color: Colors.black.withOpacity(0.15),
                             blurRadius: 15,
                             offset: const Offset(0, 10),
@@ -98,7 +99,7 @@ class StartupPage extends StatelessWidget {
                       const SizedBox(height: 32),
 
                       const Text(
-                        'Sakay na, tara na!',
+                        'Sakay na, Tara Na!',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,

@@ -35,8 +35,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
   LatLng? _currentLocation;
   List<JeepneyRoute> _matchingRoutes = [];
   final Distance _distance = Distance();
-
-  // State for temporary instruction messages
   bool _showInstruction = true;
   String _instructionMessage = 'Tap on the map to set your start location';
 
@@ -53,7 +51,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     super.dispose();
   }
 
-  /// Shows a temporary instruction message that fades out after a few seconds.
   void _showTemporaryInstruction(String message, {int durationSeconds = 3}) {
     if (!mounted) return;
     setState(() {
@@ -68,7 +65,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     });
   }
 
-  /// Fetches the user's current GPS location.
   Future<void> _getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -105,8 +101,10 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
       viewModel.getRouteById(widget.routeId!).then((selectedRoute) {
         if (selectedRoute != null && selectedRoute != _previousSelectedRoute) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            _fitRouteOnMap(selectedRoute.polylinePoints);
-            _previousSelectedRoute = selectedRoute;
+            if (mounted) {
+              _fitRouteOnMap(selectedRoute.polylinePoints);
+              _previousSelectedRoute = selectedRoute;
+            }
           });
         }
       });
@@ -114,13 +112,17 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
       final selectedRoute = viewModel.selectedRoute;
       if (selectedRoute != null && selectedRoute != _previousSelectedRoute) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _fitRouteOnMap(selectedRoute.polylinePoints);
-          _previousSelectedRoute = selectedRoute;
+          if (mounted) {
+            _fitRouteOnMap(selectedRoute.polylinePoints);
+            _previousSelectedRoute = selectedRoute;
+          }
         });
       } else if (selectedRoute == null && _previousSelectedRoute != null) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _mapController.move(const LatLng(15.1353, 120.5894), 13.0);
-          _previousSelectedRoute = null;
+          if (mounted) {
+            _mapController.move(const LatLng(15.1353, 120.5894), 13.0);
+            _previousSelectedRoute = null;
+          }
         });
       }
     }
@@ -151,6 +153,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (_) => const JeepneyRoutesBottomSheet(),
     );
   }
@@ -164,7 +167,13 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     });
   }
 
-  /// Asynchronously finds routes from the service.
+  void _clearSelectedRoute() {
+    context.read<RouteSelectionViewModel>().clearSelection();
+    _showTemporaryInstruction(
+      'Route cleared. Select a new route or tap on the map.',
+    );
+  }
+
   Future<void> _findMatchingRoutes() async {
     if (_startLocation == null || _destinationLocation == null) return;
 
@@ -174,12 +183,12 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
       final matches = allRoutes.where((route) {
         return route.polylinePoints.any(
               (point) =>
-                  _distance.as(LengthUnit.Meter, point, _startLocation!) < 50,
+                  _distance.as(LengthUnit.Meter, point, _startLocation!) < 150,
             ) &&
             route.polylinePoints.any(
               (point) =>
                   _distance.as(LengthUnit.Meter, point, _destinationLocation!) <
-                  50,
+                  150,
             );
       }).toList();
 
@@ -199,7 +208,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     }
   }
 
-  /// Builds the main map widget with performance optimizations.
   Widget _buildMap(List<Polyline> polylines) {
     return FlutterMap(
       mapController: _mapController,
@@ -237,7 +245,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.sakay_ph',
-          tileProvider: NetworkTileProvider(),
           tileBuilder: (context, widget, tile) {
             return ColorFiltered(
               colorFilter: const ColorFilter.matrix(<double>[
@@ -271,7 +278,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
               'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',
           subdomains: const ['a', 'b', 'c', 'd'],
           userAgentPackageName: 'com.example.sakay_ph',
-          tileProvider: NetworkTileProvider(),
         ),
         PolylineLayer(polylines: polylines),
         RouteMarkers(
@@ -297,31 +303,36 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     );
   }
 
-  /// Builds the instruction or route info box at the bottom of the screen.
   Widget _buildInfoBox(String message) {
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      bottom: _showInstruction ? 80.0 : -100.0, // Animate in/out
-      left: 20.0,
-      right: 20.0,
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.85),
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Text(
-          message,
-          style: const TextStyle(color: Colors.white, fontSize: 14),
-          textAlign: TextAlign.center,
+      bottom: _showInstruction ? 80.0 : -100.0,
+      left: 0,
+      right: 0,
+      child: Center(
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.9,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            // ignore: deprecated_member_use
+            color: Colors.black.withOpacity(0.85),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Text(
+            message,
+            style: const TextStyle(color: Colors.white, fontSize: 14),
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );
@@ -330,53 +341,72 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
   Widget _buildRoutesFoundBox() {
     return Positioned(
       bottom: 80.0,
-      left: 20.0,
-      right: 20.0,
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '${_matchingRoutes.length} route(s) found!',
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+      left: 0,
+      right: 0,
+      child: Center(
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.9,
+          ),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            // ignore: deprecated_member_use
+            color: Theme.of(context).primaryColor.withOpacity(0.95),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: Offset(0, 4),
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              alignment: WrapAlignment.center,
-              children: _matchingRoutes.map((route) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: route.color,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Text(
-                    route.name,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '${_matchingRoutes.length} route(s) found!',
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                alignment: WrapAlignment.center,
+                children: _matchingRoutes.map((route) {
+                  // Auto-determine text color for readability
+                  final bool isDark = route.color.computeLuminance() < 0.5;
+                  final Color textColor = isDark ? Colors.white : Colors.black;
+
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
                     ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ],
+                    decoration: BoxDecoration(
+                      color: route.color,
+                      borderRadius: BorderRadius.circular(16),
+                      // ignore: deprecated_member_use
+                      border: Border.all(color: Colors.black.withOpacity(0.1)),
+                    ),
+                    child: Text(
+                      route.name,
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -421,17 +451,14 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
                 right: 0,
                 child: const Center(child: JeepneyRouteSearch()),
               ),
-
-              // Logic for displaying info boxes
               if (_matchingRoutes.isNotEmpty)
                 _buildRoutesFoundBox()
               else
                 _buildInfoBox(_instructionMessage),
-
               if (_startLocation != null || _destinationLocation != null)
                 Positioned(
-                  top: 110.0,
-                  right: 10.0,
+                  bottom: 115.0,
+                  left: 20.0,
                   child: FloatingActionButton.small(
                     heroTag: 'clear_markers',
                     backgroundColor: Colors.red,
@@ -440,15 +467,58 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
                     child: const Icon(Icons.clear, color: Colors.white),
                   ),
                 ),
+              if (selectedRoute != null && _startLocation == null)
+                Positioned(
+                  bottom: 115.0,
+                  left: 20.0,
+                  child: FloatingActionButton.small(
+                    heroTag: 'clear_route',
+                    backgroundColor: Colors.red[400],
+                    onPressed: _clearSelectedRoute,
+                    tooltip: 'Clear Route',
+                    child: const Icon(Icons.clear, color: Colors.white),
+                  ),
+                ),
               Positioned(
-                top: 110.0,
-                left: 10.0,
+                bottom: 225.0,
+                right: 17.0,
                 child: FloatingActionButton.small(
                   heroTag: 'info',
                   backgroundColor: const Color(0xFFB89B6E),
                   onPressed: () => JeepneyInfoDialog.show(context),
                   tooltip: 'Instructions',
                   child: const Icon(Icons.info_outline, color: Colors.white),
+                ),
+              ),
+              Positioned(
+                bottom: 20.0,
+                left: 20.0,
+                child: Column(
+                  children: [
+                    FloatingActionButton.small(
+                      heroTag: 'zoom_in',
+                      backgroundColor: Colors.black54,
+                      onPressed: () {
+                        _mapController.move(
+                          _mapController.camera.center,
+                          _mapController.camera.zoom + 1,
+                        );
+                      },
+                      child: const Icon(Icons.add, color: Colors.white),
+                    ),
+                    const SizedBox(height: 8),
+                    FloatingActionButton.small(
+                      heroTag: 'zoom_out',
+                      backgroundColor: Colors.black54,
+                      onPressed: () {
+                        _mapController.move(
+                          _mapController.camera.center,
+                          _mapController.camera.zoom - 1,
+                        );
+                      },
+                      child: const Icon(Icons.remove, color: Colors.white),
+                    ),
+                  ],
                 ),
               ),
             ],

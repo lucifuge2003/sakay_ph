@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import '../features/routes_list/data/presentation/jeepney_map_page.dart';
 import 'signup_page.dart';
@@ -189,6 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
+                              // ignore: deprecated_member_use
                               color: Colors.black.withOpacity(0.15),
                               blurRadius: 15,
                               offset: const Offset(0, 10),
@@ -198,18 +201,18 @@ class _LoginPageState extends State<LoginPage> {
                         child: ClipOval(
                           child: Image.asset(
                             'assets/logo.png',
-                            width: 100,
-                            height: 100,
+                            width: 150,
+                            height: 150,
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 50),
 
                     const Center(
                       child: Text(
-                        'Sign in',
+                        'Sign In',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -224,6 +227,8 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
+                          // ignore: duplicate_ignore
+                          // ignore: deprecated_member_use
                           color: Colors.black.withOpacity(0.3),
                           width: 1,
                         ),
@@ -343,7 +348,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               )
                             : const Text(
-                                'Sign in',
+                                'Sign In',
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -391,7 +396,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 20),
                     const Center(
                       child: Text(
-                        'Sakay na, tara na!',
+                        'Sakay na, Tara Na!',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
