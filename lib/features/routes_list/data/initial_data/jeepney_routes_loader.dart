@@ -80,8 +80,8 @@ class JeepneyRoutesLoader {
           name: routeJson['name'] as String,
           color: _hexToColor(routeJson['color'] as String),
           startingPoint: routeJson['starting_point'] as String,
-          description: routeJson['description'] as String,           // ✅ Add this
-          popularDropPoints: routeJson['popular_drop_points'] as String, // ✅ Add this
+          description: routeJson['description'] as String,           
+          popularDropPoints: routeJson['popular_drop_points'] as String, 
           polylinePoints: polylinePoints,
         );
       }).toList();

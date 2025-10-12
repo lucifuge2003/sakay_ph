@@ -38,7 +38,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
   @override
   void initState() {
     super.initState();
-    // Hide Android navbar and status bar
+    // Hide Android navbar and status bar for a more immersive experience
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _getCurrentLocation();
   }
@@ -50,7 +50,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     super.dispose();
   }
 
-  // Get user current GPS location
+  /// Fetches the user's current GPS location and moves the map to it.
   Future<void> _getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -69,40 +69,49 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
-    setState(() {
-      _currentLocation = LatLng(position.latitude, position.longitude);
-    });
-
-    _mapController.move(_currentLocation!, 15.0);
+    if (mounted) {
+      setState(() {
+        _currentLocation = LatLng(position.latitude, position.longitude);
+      });
+      _mapController.move(_currentLocation!, 15.0);
+    }
   }
 
+  /// Handles fitting the map to a selected route's bounds.
+  /// This logic now runs after the route is asynchronously loaded.
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final viewModel = context.watch<RouteSelectionViewModel>();
     
+    // Asynchronously handle route loading if a routeId is passed
     if (widget.routeId != null) {
-      // Handle async route loading
       viewModel.getRouteById(widget.routeId!).then((selectedRoute) {
         if (selectedRoute != null && selectedRoute != _previousSelectedRoute) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            _fitRouteOnMap(selectedRoute.polylinePoints);
-            _previousSelectedRoute = selectedRoute;
+            if (mounted) {
+              _fitRouteOnMap(selectedRoute.polylinePoints);
+              _previousSelectedRoute = selectedRoute;
+            }
           });
         }
       });
     } else {
-      // Handle synchronous route selection
+      // Handle synchronous route selection from the bottom sheet
       final selectedRoute = viewModel.selectedRoute;
       if (selectedRoute != null && selectedRoute != _previousSelectedRoute) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _fitRouteOnMap(selectedRoute.polylinePoints);
-          _previousSelectedRoute = selectedRoute;
+          if (mounted) {
+            _fitRouteOnMap(selectedRoute.polylinePoints);
+            _previousSelectedRoute = selectedRoute;
+          }
         });
       } else if (selectedRoute == null && _previousSelectedRoute != null) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _mapController.move(const LatLng(15.1353, 120.5894), 13.0);
-          _previousSelectedRoute = null;
+          if (mounted) {
+            _mapController.move(const LatLng(15.1353, 120.5894), 13.0);
+            _previousSelectedRoute = null;
+          }
         });
       }
     }
@@ -142,19 +151,23 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     });
   }
 
+  /// Asynchronously finds jeepney routes that pass near both start and destination points.
   Future<void> _findMatchingRoutes() async {
     if (_startLocation == null || _destinationLocation == null) return;
 
     try {
+      // Fetch routes from the service instead of a static list
       final List<JeepneyRoute> allRoutes = await JeepneyRoutesService.getRoutes();
 
-    final matches = allRoutes.where((route) {
-      return route.polylinePoints.any((point) =>
-      _distance.as(LengthUnit.Kilometer, point, _startLocation!) < 0.05) &&
-          route.polylinePoints.any((point) =>
-          _distance.as(LengthUnit.Kilometer, point, _destinationLocation!) < 0.05);
-    }).toList();
+      final matches = allRoutes.where((route) {
+        // Check if any point on the route is within 50 meters of the start and destination
+        return route.polylinePoints.any((point) =>
+        _distance.as(LengthUnit.Meter, point, _startLocation!) < 50) &&
+            route.polylinePoints.any((point) =>
+            _distance.as(LengthUnit.Meter, point, _destinationLocation!) < 50);
+      }).toList();
 
+      // Check if the widget is still in the tree before calling setState
       if (mounted) {
         setState(() {
           _matchingRoutes = matches;
@@ -171,6 +184,13 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
       }
     } catch (e) {
       debugPrint('Error finding matching routes: $e');
+      if(mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Could not load route data. Please try again later.'),
+            ),
+          );
+      }
     }
   }
 
@@ -201,6 +221,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.sakay_ph',
           tileBuilder: (context, widget, tile) {
+            // Apply a grayscale filter to the base map tiles
             return ColorFiltered(
               colorFilter: const ColorFilter.matrix(<double>[
                 0.2126, 0.7152, 0.0722, 0, 0,
@@ -213,6 +234,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
           },
         ),
         TileLayer(
+          // Layer for labels only, to keep them colored and readable
           urlTemplate:
           'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',
           subdomains: const ['a', 'b', 'c', 'd'],
@@ -238,7 +260,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
               ),
             ],
           ),
-
       ],
     );
   }
@@ -271,7 +292,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).primaryColor, // Using theme color
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
@@ -280,7 +301,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
             Text(
               '${_matchingRoutes.length} route(s) found!',
               style: const TextStyle(
-                color: Colors.black,
+                color: Colors.black, // Adjusted for light primary color
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -301,7 +322,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
                   child: Text(
                     route.name,
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: Colors.black, // Adjusted for light route colors
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -319,6 +340,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
   Widget build(BuildContext context) {
     final viewModel = context.watch<RouteSelectionViewModel>();
     
+    // Use FutureBuilder to handle async loading of the selected route
     return FutureBuilder<JeepneyRoute?>(
       future: widget.routeId != null 
           ? viewModel.getRouteById(widget.routeId!)
