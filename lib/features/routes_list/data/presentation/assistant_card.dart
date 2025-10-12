@@ -21,7 +21,7 @@ class _AssistantPopupState extends State<AssistantPopup> {
   String _assistantReply = "";
   bool _isLoading = false;
 
-  final String apiKey = "YOUR_API_KEY";
+  final String apiKey = "AIzaSyABa_hinTbT-zYeJsjpzU5HNZb05YE8zSQ";
 
   final Map<String, Map<String, String>> jeepneyRoutes = {
     'checkpoint-holy-loop': {
