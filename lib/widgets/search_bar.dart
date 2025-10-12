@@ -57,9 +57,9 @@ class _JeepneyRouteSearchState extends State<JeepneyRouteSearch> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load routes: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to load routes: $e')));
       }
     }
   }
@@ -80,13 +80,20 @@ class _JeepneyRouteSearchState extends State<JeepneyRouteSearch> {
 
   /// Handles focus changes and controls suggestion list visibility.
   void _onFocusChanged() {
-    setState(() {
-      _isSearchFocused = _focusNode.hasFocus;
-      // If focus is lost and the search query is empty, clear the filtered list.
-      if (!_focusNode.hasFocus && _searchQuery.isEmpty) {
-        _filteredRoutes = [];
-      }
-    });
+    if (_focusNode.hasFocus) {
+      setState(() {
+        _isSearchFocused = true;
+      });
+    } else {
+      // Delay hiding suggestions to allow tap events on web to be processed.
+      Future.delayed(const Duration(milliseconds: 200), () {
+        if (mounted) {
+          setState(() {
+            _isSearchFocused = false;
+          });
+        }
+      });
+    }
   }
 
   /// Filters the [_allRoutes] based on the provided [query].
@@ -113,14 +120,11 @@ class _JeepneyRouteSearchState extends State<JeepneyRouteSearch> {
   }
 
   /// Handles the selection of a route from the suggestion list.
-  void _selectRouteFromSuggestion(JeepneyRoute route) {
-    // 1. CRITICAL FIX FOR DESKTOP:
-    // Forcefully remove focus immediately to prevent the desktop OS from
-    // interpreting the List Tile tap as an implicit "submit" event.
+  void _selectRouteFromSuggestion(JeepneyRoute route) async {
     FocusScope.of(context).unfocus();
 
     // 2. Set the selected route in the ViewModel FIRST. (Triggers map update)
-    context.read<RouteSelectionViewModel>().setSelectedRoute(route.id);
+    await context.read<RouteSelectionViewModel>().setSelectedRoute(route.id);
 
     // 3. Set the flag before updating the text field.
     _settingTextProgrammatically = true;
@@ -129,14 +133,12 @@ class _JeepneyRouteSearchState extends State<JeepneyRouteSearch> {
     _searchController.text = route.name;
 
     // 5. Reset the flag and perform necessary local UI updates
+    if (!mounted) return;
     setState(() {
       _settingTextProgrammatically = false; // Reset flag
       _filteredRoutes = []; // Hide suggestions
       _isSearchFocused = false; // Update local focus state
     });
-
-    // Note: The previous call to WidgetsBinding.instance.addPostFrameCallback is
-    // no longer needed because the FocusScope.unfocus() is now synchronous.
   }
 
   /// Handles search submission (e.g., when the user presses Enter or done on the keyboard).
