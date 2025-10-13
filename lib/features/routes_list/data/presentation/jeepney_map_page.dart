@@ -1,3 +1,5 @@
+import 'dart:async'; // Added for StreamSubscription
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -28,8 +30,9 @@ class JeepneyMapPage extends StatefulWidget {
 class _JeepneyMapPageState extends State<JeepneyMapPage>
     with TickerProviderStateMixin {
   final MapController _mapController = MapController();
-  JeepneyRoute? _previousSelectedRoute;
+  late StreamSubscription<MapEvent> _mapEventSubscription; // For handling taps
 
+  JeepneyRoute? _previousSelectedRoute;
   LatLng? _startLocation;
   LatLng? _destinationLocation;
   LatLng? _currentLocation;
@@ -43,10 +46,41 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _getCurrentLocation();
+
+    // Listen to map events instead of using onTap to avoid gesture conflicts
+    _mapEventSubscription = _mapController.mapEventStream.listen((
+      MapEvent mapEvent,
+    ) {
+      if (mapEvent is MapEventTap) {
+        if (!mounted) return;
+        final point = mapEvent.tapPosition;
+        setState(() {
+          if (_startLocation == null) {
+            _startLocation = point;
+            _showTemporaryInstruction(
+              'Start location set. Now set destination.',
+            );
+          } else if (_destinationLocation == null) {
+            _destinationLocation = point;
+            _showTemporaryInstruction('Finding routes...');
+            _findMatchingRoutes();
+            _fitMarkersOnMap();
+          } else {
+            _startLocation = point;
+            _destinationLocation = null;
+            _matchingRoutes = [];
+            _showTemporaryInstruction(
+              'Start location reset. Now set destination.',
+            );
+          }
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
+    _mapEventSubscription.cancel(); // Prevent memory leaks
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
   }
@@ -215,31 +249,9 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
         initialCenter: const LatLng(15.1353, 120.5894),
         initialZoom: 13.0,
         interactionOptions: const InteractionOptions(
-          flags: InteractiveFlag.all,
+          flags: InteractiveFlag.all, // Enables all interactions
         ),
-        onTap: (tapPosition, point) {
-          if (!mounted) return;
-          setState(() {
-            if (_startLocation == null) {
-              _startLocation = point;
-              _showTemporaryInstruction(
-                'Start location set. Now set destination.',
-              );
-            } else if (_destinationLocation == null) {
-              _destinationLocation = point;
-              _showTemporaryInstruction('Finding routes...');
-              _findMatchingRoutes();
-              _fitMarkersOnMap();
-            } else {
-              _startLocation = point;
-              _destinationLocation = null;
-              _matchingRoutes = [];
-              _showTemporaryInstruction(
-                'Start location reset. Now set destination.',
-              );
-            }
-          });
-        },
+        // onTap callback was removed from here
       ),
       children: [
         TileLayer(
@@ -317,7 +329,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            // ignore: deprecated_member_use
             color: Colors.black.withOpacity(0.85),
             borderRadius: BorderRadius.circular(12),
             boxShadow: const [
@@ -350,7 +361,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
           ),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            // ignore: deprecated_member_use
             color: Theme.of(context).primaryColor.withOpacity(0.95),
             borderRadius: BorderRadius.circular(12),
             boxShadow: const [
@@ -379,7 +389,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
                 runSpacing: 8,
                 alignment: WrapAlignment.center,
                 children: _matchingRoutes.map((route) {
-                  // Auto-determine text color for readability
                   final bool isDark = route.color.computeLuminance() < 0.5;
                   final Color textColor = isDark ? Colors.white : Colors.black;
 
@@ -391,7 +400,6 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
                     decoration: BoxDecoration(
                       color: route.color,
                       borderRadius: BorderRadius.circular(16),
-                      // ignore: deprecated_member_use
                       border: Border.all(color: Colors.black.withOpacity(0.1)),
                     ),
                     child: Text(
@@ -444,7 +452,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
         return Scaffold(
           body: Stack(
             children: [
-              RepaintBoundary(child: ClipRect(child: _buildMap(polylines))),
+              RepaintBoundary(child: _buildMap(polylines)), // ClipRect removed
               Positioned(
                 top: 50.0,
                 left: 0,

@@ -11,10 +11,10 @@ import 'package:sakay_ph/services/auth_state_manager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Provider.debugCheckInvalidValueType = null;
-  
+
   // Initialize Supabase
   await SupabaseConfig.initialize();
-  
+
   // Wrap the entire app in multiple providers
   runApp(
     MultiProvider(

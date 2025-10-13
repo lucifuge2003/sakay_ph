@@ -114,11 +114,13 @@ class _JeepneyRoutesBottomSheetState extends State<JeepneyRoutesBottomSheet> {
     return Card(
       elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 8),
-      color: route.color.withOpacity(0.9), // Use color from the route object
+      // ignore: deprecated_member_use
+      color: route.color.withOpacity(0.9),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: ListTile(
         leading: Icon(
           Icons.directions_bus,
+          // ignore: deprecated_member_use
           color: Colors.white.withOpacity(0.8),
         ),
         title: Text(
@@ -132,6 +134,7 @@ class _JeepneyRoutesBottomSheetState extends State<JeepneyRoutesBottomSheet> {
           'From: ${route.startingPoint}',
           style: TextStyle(
             fontStyle: FontStyle.italic,
+            // ignore: deprecated_member_use
             color: Colors.black.withOpacity(0.7),
           ),
         ),

@@ -998,16 +998,6 @@
         [15.163353, 120.555333],
         [15.163218, 120.555103]
       ]
-    },
-    {
-      "id": "mining",
-      "name": "Mining - Angeles",
-      "color": "0xFFE1AC7D",
-      "starting_point": "Mining",
-      "description": "Covers the Mining district and nearby barangays, connecting to Checkpoint and downtown.",
-      "popular_drop_points": "Mining, Checkpoint, Holy Rosary Parish, Holy Angel University, Nepo Mart",
-      "polyline_points": [
-      ]
     }
   ]
 }
