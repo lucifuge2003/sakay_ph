@@ -21,7 +21,7 @@ class _AssistantPopupState extends State<AssistantPopup> {
   String _assistantReply = "";
   bool _isLoading = false;
 
-  final String apiKey = "API KEY";
+  final String apiKey = "AIzaSyABa_hinTbT-zYeJsjpzU5HNZb05YE8zSQ";
 
   String _routeDataString = "";
 
