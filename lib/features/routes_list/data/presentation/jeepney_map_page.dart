@@ -1,4 +1,6 @@
-import 'dart:async'; // Added for StreamSubscription
+// lib/features/map/views/jeepney_map_page.dart
+
+import 'dart:async' show StreamSubscription;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +22,6 @@ import 'assistant_card.dart';
 
 class JeepneyMapPage extends StatefulWidget {
   final String? routeId;
-
   const JeepneyMapPage({Key? key, this.routeId}) : super(key: key);
 
   @override
@@ -30,7 +31,7 @@ class JeepneyMapPage extends StatefulWidget {
 class _JeepneyMapPageState extends State<JeepneyMapPage>
     with TickerProviderStateMixin {
   final MapController _mapController = MapController();
-  late StreamSubscription<MapEvent> _mapEventSubscription; // For handling taps
+  late StreamSubscription<MapEvent> _mapEventSubscription;
 
   JeepneyRoute? _previousSelectedRoute;
   LatLng? _startLocation;
@@ -47,13 +48,17 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _getCurrentLocation();
 
-    // Listen to map events instead of using onTap to avoid gesture conflicts
     _mapEventSubscription = _mapController.mapEventStream.listen((
       MapEvent mapEvent,
     ) {
       if (mapEvent is MapEventTap) {
         if (!mounted) return;
         final point = mapEvent.tapPosition;
+
+        if (_startLocation == null) {
+          context.read<RouteSelectionViewModel>().clearSelection();
+        }
+
         setState(() {
           if (_startLocation == null) {
             _startLocation = point;
@@ -80,9 +85,45 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
 
   @override
   void dispose() {
-    _mapEventSubscription.cancel(); // Prevent memory leaks
+    _mapEventSubscription.cancel();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
+  }
+
+  // --- NEW: Helper function to extract the route segment between two points ---
+  List<LatLng> _getRouteSegment({
+    required List<LatLng> routePoints,
+    required LatLng start,
+    required LatLng dest,
+  }) {
+    if (routePoints.isEmpty) return [];
+
+    int startIndex = -1;
+    double minStartDist = double.infinity;
+    for (int i = 0; i < routePoints.length; i++) {
+      final dist = _distance.as(LengthUnit.Meter, start, routePoints[i]);
+      if (dist < minStartDist) {
+        minStartDist = dist;
+        startIndex = i;
+      }
+    }
+
+    int endIndex = -1;
+    double minEndDist = double.infinity;
+    for (int i = 0; i < routePoints.length; i++) {
+      final dist = _distance.as(LengthUnit.Meter, dest, routePoints[i]);
+      if (dist < minEndDist) {
+        minEndDist = dist;
+        endIndex = i;
+      }
+    }
+
+    // Ensure the segment is valid and in the correct order
+    if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+      return routePoints.sublist(startIndex, endIndex + 1);
+    }
+
+    return [];
   }
 
   void _showTemporaryInstruction(String message, {int durationSeconds = 3}) {
@@ -214,16 +255,24 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     try {
       final List<JeepneyRoute> allRoutes =
           await JeepneyRoutesService.getRoutes();
+
       final matches = allRoutes.where((route) {
-        return route.polylinePoints.any(
-              (point) =>
-                  _distance.as(LengthUnit.Meter, point, _startLocation!) < 150,
-            ) &&
-            route.polylinePoints.any(
-              (point) =>
-                  _distance.as(LengthUnit.Meter, point, _destinationLocation!) <
-                  150,
-            );
+        final startIndex = route.polylinePoints.indexWhere(
+          (point) =>
+              _distance.as(LengthUnit.Meter, point, _startLocation!) < 150,
+        );
+
+        final endIndex = route.polylinePoints.indexWhere(
+          (point) =>
+              _distance.as(LengthUnit.Meter, point, _destinationLocation!) <
+              150,
+        );
+
+        if (startIndex != -1 && endIndex != -1) {
+          return startIndex < endIndex;
+        }
+
+        return false;
       }).toList();
 
       if (mounted) {
@@ -232,7 +281,7 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
         });
         if (matches.isEmpty) {
           _showTemporaryInstruction(
-            'No routes found. Try new locations.',
+            'No direct routes found. Try new locations.',
             durationSeconds: 4,
           );
         }
@@ -249,9 +298,8 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
         initialCenter: const LatLng(15.1353, 120.5894),
         initialZoom: 13.0,
         interactionOptions: const InteractionOptions(
-          flags: InteractiveFlag.all, // Enables all interactions
+          flags: InteractiveFlag.all,
         ),
-        // onTap callback was removed from here
       ),
       children: [
         TileLayer(
@@ -420,6 +468,65 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
     );
   }
 
+  Widget _buildSelectedRouteInfoBox(JeepneyRoute route) {
+    final etaMinutes = route.calculateETA().ceil();
+
+    return Positioned(
+      bottom: 80.0,
+      left: 0,
+      right: 0,
+      child: Center(
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.9,
+          ),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                route.name,
+                style: TextStyle(
+                  color: route.color,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.timer_outlined,
+                    color: Colors.black54,
+                    size: 18,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Full Route ETA: ~$etaMinutes minutes',
+                    style: const TextStyle(color: Colors.black87, fontSize: 15),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<RouteSelectionViewModel>();
@@ -432,7 +539,39 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
         final selectedRoute = snapshot.data;
         final polylines = <Polyline>[];
 
-        if (selectedRoute != null) {
+        // --- MODIFIED POLYLINE DRAWING LOGIC ---
+        if (_matchingRoutes.isNotEmpty &&
+            _startLocation != null &&
+            _destinationLocation != null) {
+          // Draw the calculated route segments for all matching routes
+          for (final route in _matchingRoutes) {
+            final routeSegment = _getRouteSegment(
+              routePoints: route.polylinePoints,
+              start: _startLocation!,
+              dest: _destinationLocation!,
+            );
+
+            if (routeSegment.isNotEmpty) {
+              // Draw a wider, black "casing" for better visibility
+              polylines.add(
+                Polyline(
+                  points: routeSegment,
+                  color: Colors.black.withOpacity(0.9),
+                  strokeWidth: 7.0,
+                ),
+              );
+              // Draw the main colored route line on top
+              polylines.add(
+                Polyline(
+                  points: routeSegment,
+                  color: route.color,
+                  strokeWidth: 3.5,
+                ),
+              );
+            }
+          }
+        } else if (selectedRoute != null) {
+          // Fallback to drawing a single, full selected route
           polylines.add(
             Polyline(
               points: selectedRoute.polylinePoints,
@@ -452,17 +591,21 @@ class _JeepneyMapPageState extends State<JeepneyMapPage>
         return Scaffold(
           body: Stack(
             children: [
-              RepaintBoundary(child: _buildMap(polylines)), // ClipRect removed
+              RepaintBoundary(child: _buildMap(polylines)),
               Positioned(
                 top: 50.0,
                 left: 0,
                 right: 0,
                 child: const Center(child: JeepneyRouteSearch()),
               ),
-              if (_matchingRoutes.isNotEmpty)
+
+              if (selectedRoute != null && _startLocation == null)
+                _buildSelectedRouteInfoBox(selectedRoute)
+              else if (_matchingRoutes.isNotEmpty)
                 _buildRoutesFoundBox()
               else
                 _buildInfoBox(_instructionMessage),
+
               if (_startLocation != null || _destinationLocation != null)
                 Positioned(
                   bottom: 115.0,

@@ -56,4 +56,6 @@ class JeepneyRoute {
       }).toList(),
     };
   }
+
+  calculateETA() {}
 }
