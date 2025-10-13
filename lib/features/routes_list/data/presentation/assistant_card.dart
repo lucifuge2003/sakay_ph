@@ -21,7 +21,7 @@ class _AssistantPopupState extends State<AssistantPopup> {
   String _assistantReply = "";
   bool _isLoading = false;
 
-  final String apiKey = "AIzaSyABa_hinTbT-zYeJsjpzU5HNZb05YE8zSQ";
+  final String apiKey = "YOUR_API_KEY";
 
   String _routeDataString = "";
 
@@ -54,7 +54,7 @@ class _AssistantPopupState extends State<AssistantPopup> {
       _assistantReply = "";
     });
 
-    final model = GenerativeModel(model: "gemini-pro", apiKey: apiKey);
+    final model = GenerativeModel(model: "gemini-2.5-flash", apiKey: apiKey);
 
     final prompt =
         """
@@ -98,6 +98,7 @@ Give short, friendly, helpful answers, remove any format like asterisk in conver
     if (available) {
       setState(() => _isListening = true);
       _speech.listen(
+        // ignore: deprecated_member_use
         listenMode: stt.ListenMode.confirmation,
         localeId: "en_PH",
         onResult: (result) {
@@ -124,6 +125,7 @@ Give short, friendly, helpful answers, remove any format like asterisk in conver
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      // ignore: deprecated_member_use
       backgroundColor: Colors.black.withOpacity(0.3),
       insetPadding: const EdgeInsets.all(20),
       child: Container(
@@ -152,7 +154,7 @@ Give short, friendly, helpful answers, remove any format like asterisk in conver
                   backgroundColor: Colors.white,
                   radius: 25,
                   backgroundImage: AssetImage(
-                    "assets/logo.png",
+                    "assets/cat.png",
                   ), // Assuming you have a cat asset
                 ),
                 const SizedBox(width: 10),
