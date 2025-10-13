@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
-/// A data model representing a single jeepney route.
+/// data model representing a single jeepney route.
 class JeepneyRoute {
   final String id;
   final String name;
@@ -57,5 +57,22 @@ class JeepneyRoute {
     };
   }
 
-  calculateETA() {}
+  double calculateETA({double averageSpeedKmh = 20.0}) {
+    // Estimate travel time for the full route.
+    // averageSpeedKmh defaults to typical city jeepney speed.
+    if (polylinePoints.length < 2 || averageSpeedKmh <= 0) {
+      return 0.0;
+    }
+
+    final Distance distance = const Distance();
+    double totalMeters = 0.0;
+    for (int i = 1; i < polylinePoints.length; i++) {
+      totalMeters +=
+          distance.as(LengthUnit.Meter, polylinePoints[i - 1], polylinePoints[i]);
+    }
+
+    final double totalKm = totalMeters / 1000.0;
+    final double hours = totalKm / averageSpeedKmh;
+    return hours * 60.0; // minutes
+  }
 }
